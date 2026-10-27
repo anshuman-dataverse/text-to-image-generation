@@ -1,0 +1,18 @@
+{
+  "split": "val2017",
+  "raw_images": 5000,
+  "raw_captions": 25000,
+  "images": 5000,
+  "captions": 25000,
+  "captions_per_image": 5.0,
+  "caption_words_mean": 10.44,
+  "caption_words_min_max": [
+    7,
+    50
+  ],
+  "clip_tokens_mean": 13.78,
+  "clip_tokens_max": 58,
+  "captions_over_77_tokens": 0,
+  "image_size": 512,
+  "seed": 42
+}

@@ -14,7 +14,7 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 
 | Milestone | Task | Status | Report |
 |---|---|---|---|
-| [Milestone 1](milestone1/) | Dataset, text→embedding pipeline, first samples | Code ready, Colab run pending | [Markdown](milestone1/report/Milestone1_Report.md) |
+| [Milestone 1](milestone1/) | Dataset, text→embedding pipeline, first samples | Done; conditioning re-check pending | [Markdown](milestone1/report/Milestone1_Report.md) |
 | Milestone 2 | Baseline generation, guidance and scheduler tuning | Planned | |
 | Milestone 3 | FID / IS / CLIP evaluation, sensitivity analysis | Planned | |
 | Milestone 4 | Final report, gallery, presentation (Dec 13) | Planned | |

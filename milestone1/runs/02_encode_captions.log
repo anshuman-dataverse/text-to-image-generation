@@ -1,0 +1,138 @@
+
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]
+Loading weights:  55%|█████▌    | 108/196 [00:00<00:00, 1078.75it/s]
+Loading weights: 100%|██████████| 196/196 [00:00<00:00, 1194.08it/s]
+[transformers] [1mCLIPTextModel LOAD REPORT[0m from: openai/clip-vit-large-patch14
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+text_projection.weight                                         | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+
+encode:   0%|          | 0/98 [00:00<?, ?it/s]
+encode:   1%|          | 1/98 [00:00<00:49,  1.96it/s]
+encode:   2%|▏         | 2/98 [00:00<00:36,  2.61it/s]
+encode:   3%|▎         | 3/98 [00:01<00:32,  2.91it/s]
+encode:   4%|▍         | 4/98 [00:01<00:30,  3.08it/s]
+encode:   5%|▌         | 5/98 [00:01<00:29,  3.17it/s]
+encode:   6%|▌         | 6/98 [00:01<00:28,  3.22it/s]
+encode:   7%|▋         | 7/98 [00:02<00:27,  3.25it/s]
+encode:   8%|▊         | 8/98 [00:02<00:27,  3.28it/s]
+encode:   9%|▉         | 9/98 [00:02<00:27,  3.29it/s]
+encode:  10%|█         | 10/98 [00:03<00:26,  3.30it/s]
+encode:  11%|█         | 11/98 [00:03<00:26,  3.30it/s]
+encode:  12%|█▏        | 12/98 [00:03<00:26,  3.29it/s]
+encode:  13%|█▎        | 13/98 [00:04<00:25,  3.36it/s]
+encode:  14%|█▍        | 14/98 [00:04<00:25,  3.34it/s]
+encode:  15%|█▌        | 15/98 [00:04<00:25,  3.28it/s]
+encode:  16%|█▋        | 16/98 [00:05<00:25,  3.27it/s]
+encode:  17%|█▋        | 17/98 [00:05<00:24,  3.27it/s]
+encode:  18%|█▊        | 18/98 [00:05<00:24,  3.26it/s]
+encode:  19%|█▉        | 19/98 [00:05<00:24,  3.23it/s]
+encode:  20%|██        | 20/98 [00:06<00:24,  3.20it/s]
+encode:  21%|██▏       | 21/98 [00:06<00:24,  3.21it/s]
+encode:  22%|██▏       | 22/98 [00:06<00:23,  3.19it/s]
+encode:  23%|██▎       | 23/98 [00:07<00:23,  3.19it/s]
+encode:  24%|██▍       | 24/98 [00:07<00:23,  3.18it/s]
+encode:  26%|██▌       | 25/98 [00:07<00:23,  3.15it/s]
+encode:  27%|██▋       | 26/98 [00:08<00:22,  3.15it/s]
+encode:  28%|██▊       | 27/98 [00:08<00:22,  3.15it/s]
+encode:  29%|██▊       | 28/98 [00:08<00:22,  3.15it/s]
+encode:  30%|██▉       | 29/98 [00:09<00:21,  3.14it/s]
+encode:  31%|███       | 30/98 [00:09<00:21,  3.13it/s]
+encode:  32%|███▏      | 31/98 [00:09<00:21,  3.13it/s]
+encode:  33%|███▎      | 32/98 [00:10<00:21,  3.12it/s]
+encode:  34%|███▎      | 33/98 [00:10<00:26,  2.46it/s]
+encode:  35%|███▍      | 34/98 [00:11<00:28,  2.24it/s]
+encode:  36%|███▌      | 35/98 [00:11<00:26,  2.41it/s]
+encode:  37%|███▋      | 36/98 [00:11<00:24,  2.49it/s]
+encode:  38%|███▊      | 37/98 [00:12<00:30,  2.00it/s]
+encode:  39%|███▉      | 38/98 [00:13<00:28,  2.14it/s]
+encode:  40%|███▉      | 39/98 [00:13<00:29,  2.03it/s]
+encode:  41%|████      | 40/98 [00:14<00:31,  1.83it/s]
+encode:  42%|████▏     | 41/98 [00:14<00:27,  2.06it/s]
+encode:  43%|████▎     | 42/98 [00:15<00:31,  1.80it/s]
+encode:  44%|████▍     | 43/98 [00:15<00:27,  2.03it/s]
+encode:  45%|████▍     | 44/98 [00:16<00:23,  2.26it/s]
+encode:  46%|████▌     | 45/98 [00:16<00:21,  2.47it/s]
+encode:  47%|████▋     | 46/98 [00:16<00:19,  2.63it/s]
+encode:  48%|████▊     | 47/98 [00:16<00:18,  2.74it/s]
+encode:  49%|████▉     | 48/98 [00:17<00:17,  2.84it/s]
+encode:  50%|█████     | 49/98 [00:17<00:16,  2.91it/s]
+encode:  51%|█████     | 50/98 [00:17<00:16,  2.97it/s]
+encode:  52%|█████▏    | 51/98 [00:18<00:15,  3.00it/s]
+encode:  53%|█████▎    | 52/98 [00:18<00:15,  3.04it/s]
+encode:  54%|█████▍    | 53/98 [00:18<00:14,  3.07it/s]
+encode:  55%|█████▌    | 54/98 [00:19<00:14,  3.09it/s]
+encode:  56%|█████▌    | 55/98 [00:19<00:13,  3.11it/s]
+encode:  57%|█████▋    | 56/98 [00:19<00:13,  3.12it/s]
+encode:  58%|█████▊    | 57/98 [00:20<00:13,  3.13it/s]
+encode:  59%|█████▉    | 58/98 [00:20<00:12,  3.14it/s]
+encode:  60%|██████    | 59/98 [00:20<00:12,  3.15it/s]
+encode:  61%|██████    | 60/98 [00:21<00:12,  3.16it/s]
+encode:  62%|██████▏   | 61/98 [00:21<00:11,  3.17it/s]
+encode:  63%|██████▎   | 62/98 [00:21<00:11,  3.19it/s]
+encode:  64%|██████▍   | 63/98 [00:22<00:10,  3.20it/s]
+encode:  65%|██████▌   | 64/98 [00:22<00:10,  3.19it/s]
+encode:  66%|██████▋   | 65/98 [00:22<00:10,  3.19it/s]
+encode:  67%|██████▋   | 66/98 [00:23<00:09,  3.20it/s]
+encode:  68%|██████▊   | 67/98 [00:23<00:09,  3.22it/s]
+encode:  69%|██████▉   | 68/98 [00:23<00:09,  3.23it/s]
+encode:  70%|███████   | 69/98 [00:23<00:08,  3.23it/s]
+encode:  71%|███████▏  | 70/98 [00:24<00:08,  3.24it/s]
+encode:  72%|███████▏  | 71/98 [00:24<00:08,  3.26it/s]
+encode:  73%|███████▎  | 72/98 [00:24<00:07,  3.27it/s]
+encode:  74%|███████▍  | 73/98 [00:25<00:07,  3.28it/s]
+encode:  76%|███████▌  | 74/98 [00:25<00:07,  3.29it/s]
+encode:  77%|███████▋  | 75/98 [00:25<00:06,  3.31it/s]
+encode:  78%|███████▊  | 76/98 [00:26<00:06,  3.31it/s]
+encode:  79%|███████▊  | 77/98 [00:26<00:06,  3.31it/s]
+encode:  80%|███████▉  | 78/98 [00:26<00:06,  3.31it/s]
+encode:  81%|████████  | 79/98 [00:26<00:05,  3.29it/s]
+encode:  82%|████████▏ | 80/98 [00:27<00:05,  3.31it/s]
+encode:  83%|████████▎ | 81/98 [00:27<00:05,  3.29it/s]
+encode:  84%|████████▎ | 82/98 [00:27<00:04,  3.31it/s]
+encode:  85%|████████▍ | 83/98 [00:28<00:04,  3.32it/s]
+encode:  86%|████████▌ | 84/98 [00:28<00:04,  3.35it/s]
+encode:  87%|████████▋ | 85/98 [00:28<00:03,  3.36it/s]
+encode:  88%|████████▊ | 86/98 [00:29<00:03,  3.38it/s]
+encode:  89%|████████▉ | 87/98 [00:29<00:03,  3.39it/s]
+encode:  90%|████████▉ | 88/98 [00:29<00:02,  3.36it/s]
+encode:  91%|█████████ | 89/98 [00:29<00:02,  3.39it/s]
+encode:  92%|█████████▏| 90/98 [00:30<00:02,  3.40it/s]
+encode:  93%|█████████▎| 91/98 [00:30<00:02,  3.42it/s]
+encode:  94%|█████████▍| 92/98 [00:30<00:01,  3.43it/s]
+encode:  95%|█████████▍| 93/98 [00:31<00:01,  3.43it/s]
+encode:  96%|█████████▌| 94/98 [00:31<00:01,  3.67it/s]
+encode:  97%|█████████▋| 95/98 [00:31<00:00,  3.60it/s]
+encode:  98%|█████████▊| 96/98 [00:31<00:00,  3.56it/s]
+encode:  99%|█████████▉| 97/98 [00:32<00:00,  3.53it/s]
+encode: 100%|██████████| 98/98 [00:32<00:00,  3.90it/s]
+encode: 100%|██████████| 98/98 [00:32<00:00,  3.03it/s]
+5000 images, 25000 captions -> pooled (25000, 768) -> /content/project/milestone1/data/processed/embeddings_clip-vit-large-patch14.pt

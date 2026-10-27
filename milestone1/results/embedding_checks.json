@@ -1,0 +1,22 @@
+{
+  "encoder": "openai/clip-vit-large-patch14",
+  "caption_similarity": {
+    "images": 1000,
+    "captions": 5000,
+    "same_image_mean": 0.6555,
+    "different_image_mean": 0.2341,
+    "gap": 0.4214,
+    "pairwise_auc": 0.9853
+  },
+  "text_to_image_retrieval": {
+    "images": 1000,
+    "query": "first caption of each image",
+    "recall@1": 0.549,
+    "chance@1": 0.001,
+    "recall@5": 0.811,
+    "chance@5": 0.005,
+    "recall@10": 0.897,
+    "chance@10": 0.01,
+    "median_rank": 1
+  }
+}
