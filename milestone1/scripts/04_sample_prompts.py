@@ -18,7 +18,7 @@ import torch
 
 from t2i.config import ROOT, load_config
 from t2i.embeddings import TextEncoder
-from t2i.generate import generate, load_pipeline, make_grid, save_images
+from t2i.generate import encode_prompt, generate, load_pipeline, make_grid, save_images
 
 # COCO-style everyday scenes, plus counting / colour binding / mood
 DEFAULT_PROMPTS = [
@@ -68,10 +68,18 @@ def main():
     # External-embedding conditioning: same seeds, embeddings from our TextEncoder
     enc = TextEncoder(cfg["text_encoder"]["name"], "clip", cfg["text_encoder"]["max_length"])
     hidden = enc.encode(args.prompts)["hidden"]
+    # Compare the tensors first: an encoder mismatch shows up here without any sampling noise
+    ref = encode_prompt(pipe, args.prompts).float()
+    emb_diff = (hidden.to(ref.device).float() - ref).abs()
+    print("embedding max abs diff vs pipeline encoder:", emb_diff.max().item(),
+          "| per position (first 20):", [round(v, 3) for v in emb_diff.amax(dim=(0, 2))[:20].tolist()])
     ext = generate(pipe, args.prompts, prompt_embeds=hidden, **gen)
     diffs = [float(np.abs(np.asarray(a, float) - np.asarray(b, float)).mean()) for a, b in zip(images, ext)]
     check = {
         "embedding_shape": list(hidden.shape),
+        "embedding_max_abs_diff": round(emb_diff.max().item(), 4),
+        "embedding_max_abs_diff_real_tokens_vs_padding": [
+            round(emb_diff[:, :8].max().item(), 4), round(emb_diff[:, 30:].max().item(), 4)],
         "mean_abs_pixel_diff_per_prompt": [round(d, 3) for d in diffs],
         "max_mean_abs_pixel_diff": round(max(diffs), 3),
         "note": "0 to a few /255 means our CLIP embeddings condition the U-Net identically to the built-in path",
