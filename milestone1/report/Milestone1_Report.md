@@ -14,7 +14,7 @@ PDF version: [Milestone1_Report.pdf](Milestone1_Report.pdf)
 
 ## Repository
 
-GitHub: <https://github.com/anshuman-dataverse/generative-deep-learning-project>
+GitHub: <https://github.com/anshuman-dataverse/text-to-image-generation>
 
 Code, results and figures are in the milestone1/ folder of the repository. The whole milestone runs on Google Colab from [milestone1_colab.ipynb](../notebooks/milestone1_colab.ipynb).
 
