@@ -1,0 +1,40 @@
+{
+  "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "scheduler": "ddim",
+  "steps": 30,
+  "guidance_scale": 7.5,
+  "seed": 0,
+  "size": [
+    512,
+    512
+  ],
+  "gpu": "Tesla T4",
+  "seconds_per_image": 7.84,
+  "samples": [
+    {
+      "prompt": "A man riding a bicycle down a city street.",
+      "file": "sample_00.png",
+      "seed": 0
+    },
+    {
+      "prompt": "A plate of pasta with tomatoes and basil on a wooden table.",
+      "file": "sample_01.png",
+      "seed": 1
+    },
+    {
+      "prompt": "Two dogs playing with a frisbee in a grassy park.",
+      "file": "sample_02.png",
+      "seed": 2
+    },
+    {
+      "prompt": "A red double-decker bus parked next to a blue car.",
+      "file": "sample_03.png",
+      "seed": 3
+    },
+    {
+      "prompt": "A cat sitting on a windowsill watching the rain at sunset.",
+      "file": "sample_04.png",
+      "seed": 4
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+
+preprocess:   0%|          | 0/5000 [00:00<?, ?it/s]
+preprocess:   7%|▋         | 350/5000 [00:00<00:01, 3494.91it/s]
+preprocess:  14%|█▍        | 702/5000 [00:00<00:01, 3508.30it/s]
+preprocess:  21%|██▏       | 1073/5000 [00:00<00:01, 3598.37it/s]
+preprocess:  29%|██▉       | 1446/5000 [00:00<00:00, 3649.94it/s]
+preprocess:  36%|███▋      | 1814/5000 [00:00<00:00, 3660.10it/s]
+preprocess:  44%|████▎     | 2181/5000 [00:00<00:00, 3575.15it/s]
+preprocess:  51%|█████     | 2562/5000 [00:00<00:00, 3649.45it/s]
+preprocess:  59%|█████▉    | 2953/5000 [00:00<00:00, 3729.08it/s]
+preprocess:  67%|██████▋   | 3336/5000 [00:00<00:00, 3757.44it/s]
+preprocess:  74%|███████▍  | 3712/5000 [00:01<00:00, 3492.77it/s]
+preprocess:  81%|████████▏ | 4065/5000 [00:01<00:00, 3490.53it/s]
+preprocess:  89%|████████▉ | 4456/5000 [00:01<00:00, 3610.76it/s]
+preprocess:  97%|█████████▋| 4839/5000 [00:01<00:00, 3673.41it/s]
+preprocess: 100%|██████████| 5000/5000 [00:01<00:00, 3625.50it/s]
+{
+  "split": "val2017",
+  "raw_images": 5000,
+  "raw_captions": 25000,
+  "images": 5000,
+  "captions": 25000,
+  "captions_per_image": 5.0,
+  "caption_words_mean": 10.44,
+  "caption_words_min_max": [
+    7,
+    50
+  ],
+  "clip_tokens_mean": 13.78,
+  "clip_tokens_max": 58,
+  "captions_over_77_tokens": 0,
+  "image_size": 512,
+  "seed": 42
+}

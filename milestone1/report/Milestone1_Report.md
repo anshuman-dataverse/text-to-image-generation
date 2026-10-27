@@ -22,7 +22,7 @@ Code, results and figures are in the milestone1/ folder of the repository. The w
 
 We are building a text-to-image pipeline in which a Transformer text encoder (**CLIP ViT-L/14**) conditions a pre-trained latent diffusion model (**Stable Diffusion v1.5**). We will then measure how the conditioning choices (guidance scale, noise scheduler, number of sampling steps, text encoder) trade off image fidelity, diversity and prompt alignment. Milestone 1 delivers the dataset, the text→embedding pipeline, embedding sanity checks and the first 5 prompt→image samples.
 
-_Results paragraph: fill in from results/*.json after the Colab run._
+The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images and 25,000 captions** passed cleaning, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 7.8 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. We fixed it so our encoder matches SD's encoding exactly (Section 6).
 
 ## 2. Objective
 
@@ -50,7 +50,16 @@ Alternatives considered: Flickr30k (people-centric, rarely used for FID) and a L
 | Tensors | `ToTensor` + `Normalize(0.5, 0.5)` → [-1, 1], the VAE input range |
 | Tokens | CLIP BPE tokenizer, padded/truncated to 77 tokens |
 
-_Table from results/dataset_stats.json: images, captions, captions per image, mean words, mean/max CLIP tokens, captions over 77 tokens._
+| **Statistic** (results/dataset_stats.json) | **Value** |
+|---|---|
+| Images / captions after cleaning | 5,000 / 25,000 (none removed) |
+| Captions per image | 5.0 |
+| Words per caption: mean (min–max) | 10.44 (7–50) |
+| CLIP tokens per caption: mean / max | 13.78 / 58 |
+| Captions truncated at 77 tokens | 0 |
+| Image size | 512×512 |
+
+COCO captions are short and literal (about 10 words), so truncation is never an issue. The real constraint is that the prompts describe ordinary scenes rather than artistic styles. That makes COCO a good test of *content* alignment, and a poor test of style control.
 
 ![Dataset examples](../screenshots/dataset_examples.png)
 ![Caption lengths](../screenshots/caption_lengths.png)
@@ -72,22 +81,45 @@ Our own encoder wrapper (`t2i/embeddings.py`) produces the conditioning tensor, 
 1. **Caption similarity:** captions of the same image should be closer than captions of different images.
 2. **Text→image retrieval:** CLIP's text and image towers share one space, so each image should be found from its own caption among the candidate images.
 
-_Table from results/embedding_checks.json: same vs. different image similarity, AUC, Recall@1/5/10 vs. chance, median rank._
+| **Check** (results/embedding_checks.json) | **Result** |
+|---|---|
+| Caption cosine similarity, same image (1,000 images, 5,000 captions) | 0.656 |
+| Caption cosine similarity, different images | 0.234 |
+| P(same-image pair > different-image pair) | 0.985 |
+| Text→image Recall@1 / @5 / @10 (1,000 images) | 54.9% / 81.1% / 89.7% |
+| Chance @1 / @5 / @10 | 0.1% / 0.5% / 1.0% |
+| Median rank of the correct image | 1 |
+
+Retrieval is 549× better than chance at rank 1. The misses are informative: for "A living area with a television and a table" all five top images are living rooms with TVs, but not the right one. COCO captions often fit several images equally well, so Recall@1 understates alignment. This matters for Milestone 3, where CLIP score will judge generated images. CLIP rewards matching the caption's content, not reproducing the reference photo.
 
 ![Caption similarity](../screenshots/caption_similarity.png)
 ![Retrieval examples](../screenshots/retrieval_examples.png)
 
 ## 6. First test runs (5 prompts)
 
-Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4.
+Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4, **7.84 s per image** (with attention slicing on).
 
 ![Milestone 1 samples](../screenshots/milestone1_samples.png)
 
-_Per-prompt observations: what is right, what is wrong (counting, colour binding, hands, text)._
+| Prompt | Correct | Wrong / missing |
+|---|---|---|
+| A man riding a bicycle down a city street | rider, bicycle, street, lane markings, buildings | n/a; photorealistic and coherent |
+| A plate of pasta with tomatoes and basil on a wooden table | all four objects, plausible food styling | n/a |
+| Two dogs playing with a frisbee in a grassy park | **count is right** (two dogs), park, playful pose | **frisbee missing** (object omission) |
+| A red double-decker bus parked next to a blue car | red double-decker bus | **no blue car**: the blue leaked onto a second bus's front (attribute leakage) |
+| A cat sitting on a windowsill watching the rain at sunset | cat, windowsill, raindrops on the glass | "sunset" is ignored (grey daylight); the third concept in the prompt is dropped |
 
-**Conditioning check:** with the same seeds, images conditioned on our own CLIP embeddings match the built-in prompt path (mean absolute pixel difference _x_ / 255, from results/conditioning_check.json).
+The model handles single-subject scenes well and degrades as prompts list more objects and attributes. This is the known weakness of CLIP-conditioned diffusion with compositional prompts, and Milestone 2 will test whether higher guidance helps.
 
-![Conditioning check](../screenshots/conditioning_check.png)
+### Conditioning check: our embeddings → U-Net
+
+We encode the 5 prompts with our own `TextEncoder` and pass the 77×768 tensor to the U-Net as `prompt_embeds`, using the same seeds as above. If our encoding matches SD's, the images must be identical.
+
+**First run (bug):** the images differed by 47–78 / 255 on average, and three of them broke down completely (below). Our encoder passed CLIP an `attention_mask`, but SD's pipeline does not. Because CLIP's text transformer is causal, the real tokens and the pooled EOS embedding are **bit-identical** either way (we verified this). The 60+ **padding positions**, however, change, and the U-Net cross-attends to all 77. So SD v1.5 has learned to read conditioning from the padding tokens, which is a useful fact for later experiments that edit embeddings. Cached pooled embeddings and the checks in Section 5 are unaffected.
+
+![Masked conditioning (bug)](../screenshots/conditioning_check_masked.png)
+
+**After the fix** (no mask, matching SD): _rerun pending; in a local test with a small SD model the difference is exactly 0._
 
 ## 7. Plan
 

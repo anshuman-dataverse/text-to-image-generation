@@ -1,0 +1,16 @@
+{
+  "embedding_shape": [
+    5,
+    77,
+    768
+  ],
+  "mean_abs_pixel_diff_per_prompt": [
+    56.428,
+    67.027,
+    46.833,
+    78.489,
+    57.784
+  ],
+  "max_mean_abs_pixel_diff": 78.489,
+  "note": "First run: TextEncoder passed CLIP an attention_mask, unlike SD's own encoding. Real-token and pooled embeddings are identical, but the 60+ padding positions differ and the U-Net attends to them, so images degrade. Fixed in t2i/embeddings.py; see conditioning_check.json for the rerun."
+}

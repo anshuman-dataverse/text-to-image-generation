@@ -45,7 +45,13 @@ class TextEncoder:
     @torch.no_grad()
     def encode(self, texts: list[str]) -> dict[str, torch.Tensor]:
         tok = self.tokenize(texts).to(self.device)
-        out = self.model(input_ids=tok["input_ids"], attention_mask=tok["attention_mask"])
+        if self.kind == "clip":
+            # No attention mask, exactly like Stable Diffusion's own text encoding. Thanks to CLIP's
+            # causal mask, real tokens and the pooled EOS are identical either way, but padding
+            # positions differ, and the U-Net cross-attends to all 77 positions.
+            out = self.model(input_ids=tok["input_ids"])
+        else:
+            out = self.model(input_ids=tok["input_ids"], attention_mask=tok["attention_mask"])
         hidden = out.last_hidden_state
         if self.kind == "clip":
             pooled = out.pooler_output  # EOS-token embedding
