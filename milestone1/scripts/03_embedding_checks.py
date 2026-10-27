@@ -47,6 +47,11 @@ def caption_similarity(emb: dict, n_images: int, seed: int) -> dict:
     }
 
 
+def _embeds(out) -> torch.Tensor:
+    """transformers<5 returns a tensor; >=5 returns an output whose pooler_output is projected."""
+    return out if isinstance(out, torch.Tensor) else out.pooler_output
+
+
 @torch.no_grad()
 def retrieval(records: list[dict], img_dir, name: str, n: int, batch: int = 64) -> tuple[dict, torch.Tensor]:
     dev = default_device()
@@ -59,10 +64,10 @@ def retrieval(records: list[dict], img_dir, name: str, n: int, batch: int = 64) 
         b = recs[i:i + batch]
         px = proc(images=[Image.open(img_dir / r["file_name"]).convert("RGB") for r in b],
                   return_tensors="pt")["pixel_values"].to(dev, dtype)
-        img_z.append(F.normalize(model.get_image_features(pixel_values=px).float(), dim=-1))
+        img_z.append(F.normalize(_embeds(model.get_image_features(pixel_values=px)).float(), dim=-1))
         t = proc(text=[r["captions"][0] for r in b], return_tensors="pt",
                  padding=True, truncation=True).to(dev)
-        txt_z.append(F.normalize(model.get_text_features(**t).float(), dim=-1))
+        txt_z.append(F.normalize(_embeds(model.get_text_features(**t)).float(), dim=-1))
     sim = torch.cat(txt_z) @ torch.cat(img_z).T
     ranks = sim.argsort(dim=1, descending=True).cpu()
     gt = torch.arange(len(recs))
