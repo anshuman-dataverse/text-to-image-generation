@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+.DS_Store
+
+# Large artifacts: regenerate with scripts/, don't commit
+data/
+outputs/*
+!outputs/.gitkeep
+!outputs/milestone1/
+*.pt
+*.safetensors

@@ -1,0 +1,23 @@
+data:
+  root: data/coco            # raw COCO download lives here
+  processed: data/processed  # resized images + captions.jsonl
+  split: val2017             # 5,000 images, 25k captions
+  num_images: 5000           # subset size (1k-5k per milestone spec)
+  image_size: 512            # SD v1.5 native resolution
+  min_caption_words: 3
+  seed: 42
+
+text_encoder:
+  name: openai/clip-vit-large-patch14   # same encoder SD v1.5 uses internally
+  type: clip                            # clip | bert
+  max_length: 77
+  batch_size: 256
+
+diffusion:
+  model_id: stable-diffusion-v1-5/stable-diffusion-v1-5
+  scheduler: ddim            # ddim | ddpm | pndm | euler | euler_a | dpmpp
+  num_inference_steps: 30
+  guidance_scale: 7.5
+  height: 512
+  width: 512
+  seed: 0
