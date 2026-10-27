@@ -4,10 +4,8 @@ __pycache__/
 .venv/
 .DS_Store
 
-# Large artifacts: regenerate with scripts/, don't commit
-data/
-outputs/*
-!outputs/.gitkeep
-!outputs/milestone1/
+# COCO download, processed images and cached embeddings: recreated by 01/02
+milestone*/data/
 *.pt
 *.safetensors
+*.zip
