@@ -56,8 +56,8 @@ A GPU is needed. A Colab T4 is enough: SD v1.5 in fp16 uses about 4 GB and takes
 **University GPU / Linux:**
 
 ```bash
-git clone https://github.com/anshuman-dataverse/generative-deep-learning-project.git
-cd generative-deep-learning-project
+git clone https://github.com/anshuman-dataverse/text-to-image-generation.git
+cd text-to-image-generation
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 ```
