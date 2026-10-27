@@ -1,0 +1,13 @@
+torch>=2.1
+torchvision>=0.16
+diffusers>=0.30
+transformers>=4.44
+accelerate>=0.33
+safetensors
+pillow
+numpy
+pyyaml
+tqdm
+matplotlib
+# Milestone 3 (evaluation)
+torchmetrics[image]>=1.4
