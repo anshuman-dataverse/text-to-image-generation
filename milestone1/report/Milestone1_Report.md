@@ -22,7 +22,7 @@ Code, results and figures are in the milestone1/ folder of the repository. The w
 
 We are building a text-to-image pipeline in which a Transformer text encoder (**CLIP ViT-L/14**) conditions a pre-trained latent diffusion model (**Stable Diffusion v1.5**). We will then measure how the conditioning choices (guidance scale, noise scheduler, number of sampling steps, text encoder) trade off image fidelity, diversity and prompt alignment. Milestone 1 delivers the dataset, the text→embedding pipeline, embedding sanity checks and the first 5 prompt→image samples.
 
-The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images and 25,000 captions** passed cleaning, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 7.8 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. We fixed it so our encoder matches SD's encoding exactly (Section 6).
+The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images and 25,000 captions** passed cleaning, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 7.5 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. After the fix, our embeddings match SD's own encoding bit for bit and produce pixel-identical images (Section 6).
 
 ## 2. Objective
 
@@ -97,7 +97,7 @@ Retrieval is 549× better than chance at rank 1. The misses are informative: for
 
 ## 6. First test runs (5 prompts)
 
-Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4, **7.84 s per image** (with attention slicing on).
+Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4, **7.5 s per image** (with attention slicing on).
 
 ![Milestone 1 samples](../screenshots/milestone1_samples.png)
 
@@ -119,7 +119,9 @@ We encode the 5 prompts with our own `TextEncoder` and pass the 77×768 tensor t
 
 ![Masked conditioning (bug)](../screenshots/conditioning_check_masked.png)
 
-**After the fix** (no mask, matching SD): _rerun pending; in a local test with a small SD model the difference is exactly 0._
+**After the fix** (no mask, matching SD): the 77×768 tensors from our encoder equal the pipeline's own text encoding exactly (max abs difference 0.0 at every position), and all 5 images are pixel-identical (mean abs difference 0.0 / 255). External embeddings from `TextEncoder` can therefore drive the U-Net in later milestones with no hidden change in conditioning. A full rerun of steps 01–04 also reproduced every other result and sample image byte for byte.
+
+![Conditioning check after the fix](../screenshots/conditioning_check.png)
 
 ## 7. Plan
 

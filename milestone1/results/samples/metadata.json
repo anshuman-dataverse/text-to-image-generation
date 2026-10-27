@@ -9,7 +9,7 @@
     512
   ],
   "gpu": "Tesla T4",
-  "seconds_per_image": 7.84,
+  "seconds_per_image": 7.51,
   "samples": [
     {
       "prompt": "A man riding a bicycle down a city street.",
