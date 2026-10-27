@@ -1,0 +1,21 @@
+{
+  "embedding_shape": [
+    5,
+    77,
+    768
+  ],
+  "embedding_max_abs_diff": 0.0,
+  "embedding_max_abs_diff_real_tokens_vs_padding": [
+    0.0,
+    0.0
+  ],
+  "mean_abs_pixel_diff_per_prompt": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "max_mean_abs_pixel_diff": 0.0,
+  "note": "0 to a few /255 means our CLIP embeddings condition the U-Net identically to the built-in path"
+}
