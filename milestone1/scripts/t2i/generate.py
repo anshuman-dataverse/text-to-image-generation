@@ -1,6 +1,18 @@
 """Stable Diffusion pipeline loading, scheduler swapping and text-conditioned sampling."""
 
+import sys
 from pathlib import Path
+
+# Colab ships a torchao that diffusers accepts by version but that lacks FqnToConfig, which
+# breaks `import diffusers`. We don't quantize, so hide a broken torchao from diffusers.
+try:
+    from torchao.quantization import FqnToConfig  # noqa: F401
+except ImportError:
+    for _m in [m for m in sys.modules if m == "torchao" or m.startswith("torchao.")]:
+        del sys.modules[_m]
+    sys.modules["torchao"] = None
+except Exception:
+    sys.modules["torchao"] = None
 
 import numpy as np
 import torch
