@@ -14,3 +14,7 @@ for doc in Milestone1_Report:report.css Milestone1_Proposal:proposal.css; do
     --print-to-pdf="$PWD/$name.pdf" "file://$tmp/$name.html" 2>/dev/null
   echo "wrote $name.pdf"
 done
+
+# Single file for the Canvas upload: one-page proposal followed by the full report
+pdfunite Milestone1_Proposal.pdf Milestone1_Report.pdf Milestone1_Submission.pdf
+echo "wrote Milestone1_Submission.pdf"
