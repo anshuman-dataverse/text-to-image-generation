@@ -1,6 +1,6 @@
 # Project Proposal & Setup – From Words to Worlds (Milestone 1)
 
-**Northeastern University · IE 7615 · Fall 2026 · Generative Project · _Date TBD_**
+**Northeastern University · IE 7615 · Fall 2026 · Generative Project · November 6, 2026**
 
 **Group 1**
 

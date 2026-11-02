@@ -9,7 +9,7 @@ trap 'rm -rf "$tmp"' EXIT
 
 for doc in Milestone1_Report:report.css Milestone1_Proposal:proposal.css; do
   name="${doc%%:*}"; css="${doc##*:}"
-  pandoc "$name.md" -s --metadata title=" " -c "$css" --embed-resources -o "$tmp/$name.html"
+  pandoc "$name.md" -s --metadata title=" " -c "$css" --lua-filter github_links.lua --embed-resources -o "$tmp/$name.html"
   "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer \
     --print-to-pdf="$PWD/$name.pdf" "file://$tmp/$name.html" 2>/dev/null
   echo "wrote $name.pdf"
