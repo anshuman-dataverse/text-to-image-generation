@@ -55,27 +55,75 @@ def clean_caption(text: str) -> str:
 
 
 def load_coco_captions(root: Path, split: str = "val2017", min_words: int = 3) -> list[dict]:
-    """Return one record per image: {image_id, file_name, width, height, captions}."""
+    """Return one record per image: {image_id, file_name, width, height, captions, caption_ids}.
+
+    caption_ids[i] is the COCO annotation id of captions[i]; for a caption that appears
+    twice on one image after cleaning, the lower id is kept.
+    """
     with open(root / "annotations" / f"captions_{split}.json") as f:
         ann = json.load(f)
 
-    caps = defaultdict(list)
-    for a in ann["annotations"]:
+    caps = defaultdict(dict)  # image_id -> {cleaned caption: annotation id}
+    for a in sorted(ann["annotations"], key=lambda a: a["id"]):
         c = clean_caption(a["caption"])
         if len(c.split()) >= min_words:
-            caps[a["image_id"]].append(c)
+            caps[a["image_id"]].setdefault(c, a["id"])
 
     records = []
     for img in ann["images"]:
         if caps[img["id"]]:
+            texts = sorted(caps[img["id"]])
             records.append({
                 "image_id": img["id"],
                 "file_name": img["file_name"],
                 "width": img["width"],
                 "height": img["height"],
-                "captions": sorted(set(caps[img["id"]])),
+                "captions": texts,
+                "caption_ids": [caps[img["id"]][t] for t in texts],
             })
     return sorted(records, key=lambda r: r["image_id"])
+
+
+# A few COCO annotators wrote that no image was shown instead of a caption
+PLACEHOLDER = re.compile(r"\b(unable to see|no image)\b", re.I)
+
+
+def make_pairs(records: list[dict], seed: int = 42) -> list[dict]:
+    """One (image, caption) pair per image: a seeded random pick among its cleaned captions,
+    skipping placeholder captions."""
+    rng = random.Random(seed)
+    pairs = []
+    for r in records:
+        ok = [i for i, c in enumerate(r["captions"]) if not PLACEHOLDER.search(c)]
+        k = rng.choice(ok or list(range(len(r["captions"]))))
+        pairs.append({"image_id": r["image_id"], "caption_id": r["caption_ids"][k],
+                      "file_name": r["file_name"], "caption": r["captions"][k]})
+    return pairs
+
+
+def check_pairs(pairs: list[dict], img_dir: Path, size: int) -> dict:
+    """Integrity checks on the pair subset: every image readable at size x size, no empty or
+    placeholder captions, no duplicate image or caption ids."""
+    bad_images = []
+    for p in pairs:
+        try:
+            with Image.open(img_dir / p["file_name"]) as im:
+                if im.size != (size, size):
+                    bad_images.append(p["file_name"])
+        except (OSError, FileNotFoundError):
+            bad_images.append(p["file_name"])
+    texts = [p["caption"].strip() for p in pairs]
+    return {
+        "pairs": len(pairs),
+        "missing_or_unreadable_images": len(bad_images),
+        "empty_captions": sum(not t.rstrip(".") for t in texts),
+        "placeholder_captions": sum(bool(PLACEHOLDER.search(t)) for t in texts),
+        "duplicate_image_ids": len(pairs) - len({p["image_id"] for p in pairs}),
+        "duplicate_caption_ids": len(pairs) - len({p["caption_id"] for p in pairs}),
+        # Same text on two different images is real COCO data, reported but not removed
+        "repeated_caption_texts": len(pairs) - len(set(t.lower() for t in texts)),
+        "bad_image_files": bad_images[:20],
+    }
 
 
 def subset(records: list[dict], n: int, seed: int = 42) -> list[dict]:

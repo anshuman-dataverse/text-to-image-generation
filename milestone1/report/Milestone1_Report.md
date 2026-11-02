@@ -10,7 +10,7 @@
 | Rohan Prakash Krishna Prakash | 002317798 |
 | Sree Ramya Pasala | 002301508 |
 
-PDF version: [Milestone1_Report.pdf](Milestone1_Report.pdf)
+PDF version: [Milestone1_Report.pdf](Milestone1_Report.pdf) · One-page proposal: [Milestone1_Proposal.pdf](Milestone1_Proposal.pdf)
 
 ## Repository
 
@@ -22,7 +22,7 @@ Code, results and figures are in the milestone1/ folder of the repository. The w
 
 We are building a text-to-image pipeline in which a Transformer text encoder (**CLIP ViT-L/14**) conditions a pre-trained latent diffusion model (**Stable Diffusion v1.5**). We will then measure how the conditioning choices (guidance scale, noise scheduler, number of sampling steps, text encoder) trade off image fidelity, diversity and prompt alignment. Milestone 1 delivers the dataset, the text→embedding pipeline, embedding sanity checks and the first 5 prompt→image samples.
 
-The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images and 25,000 captions** passed cleaning, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 7.5 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. After the fix, our embeddings match SD's own encoding bit for bit and produce pixel-identical images (Section 6).
+The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images** and 25,000 of the 25,014 captions passed cleaning (14 were exact duplicates). The working subset is **5,000 image–caption pairs**, one caption per image, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 7.5 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. After the fix, our embeddings match SD's own encoding bit for bit and produce pixel-identical images (Section 6).
 
 ## 2. Objective
 
@@ -35,7 +35,8 @@ Generate images from text with a Transformer encoder and a diffusion model, then
 | Property | Value |
 |---|---|
 | Images | 5,000 natural photos, 80 object categories, multi-object everyday scenes |
-| Captions | ~5 human-written captions per image (~25k total) |
+| Captions | ~5 human-written captions per image (25,014 total) |
+| Working subset | **5,000 image–caption pairs**, one caption per image (`results/pairs_manifest.csv`) |
 | Why | standard reference set for text-to-image FID (comparable to published numbers); compositional scenes test alignment; 5k images fit the 1k–5k scope without the 18 GB train split |
 
 Alternatives considered: Flickr30k (people-centric, rarely used for FID) and a LAION-400M subset (noisy web alt-text, and broken links make it hard to reproduce).
@@ -46,13 +47,15 @@ Alternatives considered: Flickr30k (people-centric, rarely used for FID) and a L
 |---|---|
 | Captions | whitespace normalization, capitalized, single trailing period, exact duplicates per image removed, captions under 3 words dropped |
 | Subset | seeded random sample (seed 42) of _N_ images (default all 5,000) |
+| Pairs | one caption per image, random pick with seed 42, skipping annotator placeholders such as "I am unable to see an image above." (14 in the pool) |
 | Images | RGB, shorter side resized to 512 (bicubic), center-crop 512×512, which is SD v1.5's native resolution |
 | Tensors | `ToTensor` + `Normalize(0.5, 0.5)` → [-1, 1], the VAE input range |
 | Tokens | CLIP BPE tokenizer, padded/truncated to 77 tokens |
 
 | **Statistic** (results/dataset_stats.json) | **Value** |
 |---|---|
-| Images / captions after cleaning | 5,000 / 25,000 (none removed) |
+| Images / captions after cleaning | 5,000 / 25,000 (from 25,014; 14 exact duplicates removed) |
+| Image–caption pairs (results/pairs_manifest.csv) | 5,000 |
 | Captions per image | 5.0 |
 | Words per caption: mean (min–max) | 10.44 (7–50) |
 | CLIP tokens per caption: mean / max | 13.78 / 58 |
@@ -60,6 +63,8 @@ Alternatives considered: Flickr30k (people-centric, rarely used for FID) and a L
 | Image size | 512×512 |
 
 COCO captions are short and literal (about 10 words), so truncation is never an issue. The real constraint is that the prompts describe ordinary scenes rather than artistic styles. That makes COCO a good test of *content* alignment, and a poor test of style control.
+
+**Pair subset checks** (results/subset_checks.json): 0 missing or unreadable images (all 512×512), 0 empty captions, 0 placeholder captions, 0 duplicate image IDs, 0 duplicate caption IDs. 21 caption texts appear on two or three different images (for example "A man holding a tennis racquet on a tennis court."). They are genuine captions of different photos and are kept. The 25,000-caption pool is used for the embedding checks in Section 5, and the 5,000 pairs are the generation and evaluation set for Milestones 2–3.
 
 ![Dataset examples](../screenshots/dataset_examples.png)
 ![Caption lengths](../screenshots/caption_lengths.png)
@@ -138,9 +143,9 @@ Extensions if time allows: GPT-style text embeddings, style control through extr
 
 | Member | Responsibilities |
 |---|---|
-| Anshuman Singh | _TBD_ |
-| Rohan Prakash Krishna Prakash | _TBD_ |
-| Sree Ramya Pasala | _TBD_ |
+| Anshuman Singh | model integration, diffusion image generation, repository management |
+| Rohan Prakash Krishna Prakash | dataset collection, cleaning, preprocessing and validation |
+| Sree Ramya Pasala | CLIP embedding pipeline, evaluation, visualizations, technical documentation |
 
 ## 9. Ethical considerations (planned)
 

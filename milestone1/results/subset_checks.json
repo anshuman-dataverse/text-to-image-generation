@@ -1,0 +1,10 @@
+{
+  "pairs": 5000,
+  "missing_or_unreadable_images": 0,
+  "empty_captions": 0,
+  "placeholder_captions": 0,
+  "duplicate_image_ids": 0,
+  "duplicate_caption_ids": 0,
+  "repeated_caption_texts": 21,
+  "bad_image_files": []
+}

@@ -9,3 +9,11 @@ milestone*/data/
 *.pt
 *.safetensors
 *.zip
+*.ckpt
+*.bin
+checkpoints/
+
+# credentials
+.env
+*.token
+.huggingface/
