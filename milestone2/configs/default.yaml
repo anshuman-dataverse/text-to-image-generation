@@ -1,0 +1,39 @@
+prompts:
+  manifest: ../milestone1/results/pairs_manifest.csv   # 5,000 COCO val2017 image–caption pairs
+  coco_images: ../milestone1/data/processed/images      # optional: real images for side-by-side figures
+  seed: 42                                              # fixed shuffle; experiments use prefixes of it
+
+diffusion:
+  model_id: stable-diffusion-v1-5/stable-diffusion-v1-5
+  height: 512
+  width: 512
+  batch_size: 4
+  attention_slicing: false   # PyTorch SDPA is faster and fits a T4 at batch 4
+
+outputs: outputs             # generated images (git-ignored; on Colab a link to Google Drive)
+
+clip_score:
+  model: openai/clip-vit-large-patch14   # torchmetrics' default CLIP-score backbone
+  batch_size: 32
+
+# Experiment 1: baseline with the Milestone 1 settings over COCO captions
+baseline:
+  n_prompts: 200
+  scheduler: ddim
+  steps: 30
+  guidance: 7.5
+
+# Experiment 2: classifier-free guidance scale, 2 seeds per prompt for diversity
+guidance_sweep:
+  n_prompts: 32
+  seeds_per_prompt: 2
+  scales: [1, 3, 5, 7.5, 10, 15]
+  scheduler: ddim
+  steps: 30
+
+# Experiment 3: noise scheduler × number of sampling steps
+scheduler_sweep:
+  n_prompts: 24
+  schedulers: [ddim, ddpm, pndm, euler, euler_a, dpmpp]
+  steps: [10, 25, 50]
+  guidance: 7.5

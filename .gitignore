@@ -6,6 +6,8 @@ __pycache__/
 
 # COCO download, processed images and cached embeddings: recreated by 01/02
 milestone*/data/
+# generated images (Milestone 2+): on Google Drive; no trailing slash so a Colab symlink matches too
+milestone*/outputs
 *.pt
 *.safetensors
 *.zip

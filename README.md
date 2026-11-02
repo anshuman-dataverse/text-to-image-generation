@@ -17,7 +17,7 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 | Milestone | Task | Status | Report |
 |---|---|---|---|
 | [Milestone 1](milestone1/) | Dataset, text→embedding pipeline, first samples | Done | [Report (Markdown)](milestone1/report/Milestone1_Report.md) · [Report (PDF)](milestone1/report/Milestone1_Report.pdf) · [One-page proposal (PDF)](milestone1/report/Milestone1_Proposal.pdf) |
-| Milestone 2 | Baseline generation, guidance and scheduler tuning | Planned | |
+| [Milestone 2](milestone2/) | Baseline generation, guidance and scheduler tuning | Code ready, Colab run pending | |
 | Milestone 3 | FID / IS / CLIP evaluation, sensitivity analysis | Planned | |
 | Milestone 4 | Final report, gallery, presentation (Dec 13) | Planned | |
 
@@ -112,3 +112,19 @@ Options: `01_prepare_data.py --num-images 1000`, `02_encode_captions.py --encode
 The COCO data is not in the repository (`milestone1/data/` is git-ignored). Script 01 downloads it. Script 01 needs no GPU, so the dataset step can be checked on any machine.
 
 The report PDFs are built from the Markdown with `milestone1/report/build_pdfs.sh` (pandoc + Google Chrome).
+
+---
+
+## Milestone 2: baseline generation, guidance and scheduler sweeps
+
+Three experiments on COCO captions from the Milestone 1 pair manifest. Prompt *i* uses seed *i* in every experiment, so only the varied setting changes. Every image is scored with CLIP score (ViT-L/14, 100 · max(cos, 0)) against its caption.
+
+| Exp. | Script | Varies | Prompts × seeds | Measures |
+|---|---|---|---|---|
+| 1 | `01_baseline.py` | nothing (DDIM, 30 steps, w = 7.5) | 200 × 1 | CLIP score, vs. the real COCO photo |
+| 2 | `02_guidance_sweep.py` | w ∈ {1, 3, 5, 7.5, 10, 15} | 32 × 2 | CLIP score, seed diversity, saturation |
+| 3 | `03_scheduler_sweep.py` | DDIM, DDPM, PNDM, Euler, Euler-a, DPM++ × {10, 25, 50} steps | 24 × 1 | CLIP score, s/image, convergence to 50 steps |
+
+**Run:** open [`milestone2/notebooks/milestone2_colab.ipynb`](milestone2/notebooks/milestone2_colab.ipynb) in Colab with a T4 GPU and *Run all* (about 1.5–2 h). Generated images go to `MyDrive/IE7615_Project2/milestone2_outputs` and are skipped if already there, so a disconnected session resumes. Results, figures and logs are zipped to `MyDrive/IE7615_Project2/milestone2_outputs.zip`; unzip it into `milestone2/` and commit.
+
+Locally: `cd milestone2/scripts && python 01_baseline.py` (and 02, 03). `--n` sets the number of prompts and `--score-only` re-scores existing images without a GPU run. Settings are in `milestone2/configs/default.yaml`.
