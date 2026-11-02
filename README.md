@@ -43,7 +43,7 @@ Pipeline: `text prompt → CLIP tokenizer → CLIP text encoder → 77×768 embe
 
 ### Five test runs
 
-SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, fp16 on a Colab Tesla T4 (7.5 s/image). Metadata: [`results/samples/metadata.json`](milestone1/results/samples/metadata.json).
+SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, fp16 on a Colab Tesla T4 (6.7 s/image). Metadata: [`results/samples/metadata.json`](milestone1/results/samples/metadata.json).
 
 | Seed | Prompt | Image | Observation |
 |---|---|---|---|
