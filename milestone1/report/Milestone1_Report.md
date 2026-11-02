@@ -81,6 +81,8 @@ COCO captions are short and literal (about 10 words), so truncation is never an 
 
 Our own encoder wrapper (`t2i/embeddings.py`) produces the conditioning tensor, and `t2i/generate.py` passes it to the U-Net as `prompt_embeds`. This lets later milestones swap or modify the text representation (BERT, interpolation, prompt weighting).
 
+**Environment.** Python with PyTorch (≥ 2.1) and torchvision, 🤗 Diffusers (≥ 0.30) for Stable Diffusion and the schedulers, 🤗 Transformers (≥ 4.44) for CLIP (tokenizer, text encoder and the image tower used for retrieval), and Accelerate and safetensors for model loading (`requirements.txt`). Everything runs on Google Colab with a Tesla T4 (16 GB) in fp16. The notebook installs `requirements.txt`, mounts Google Drive for the COCO data and outputs, and logs the git commit of the code used in every run (`runs/*.log`). Both models are public on the Hugging Face Hub, so no access token is needed.
+
 ## 5. Text → embedding pipeline and sanity checks
 
 1. **Caption similarity:** captions of the same image should be closer than captions of different images.
