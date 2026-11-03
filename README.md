@@ -77,7 +77,7 @@ milestone1/
 
 ### Setup
 
-A GPU is needed. A Colab T4 is enough: SD v1.5 in fp16 uses about 4 GB and takes about 3–5 s per 512×512 image at 30 steps.
+A GPU is needed. A Colab T4 is enough: SD v1.5 in fp16 uses about 4 GB and takes about 6.7 s per 512×512 image at 30 steps (DDIM, attention slicing on).
 
 **Google Colab (recommended):**
 

@@ -9,3 +9,8 @@ th { background: #eef2f7; }
 img { max-width: 100%; max-height: 4.2in; display: block; margin: 6pt auto; break-inside: avoid; }
 code { font-size: 9pt; } a { color: #1a3d6d; }
 header#title-block-header { display: none; }
+body { counter-reset: fig; }
+figure { margin: 8pt 0; break-inside: avoid; counter-increment: fig; }
+figure img { max-height: 3.6in; margin: 0 auto 3pt; }
+figcaption { text-align: center; font-size: 9pt; color: #444; font-style: italic; }
+figcaption::before { content: "Figure " counter(fig) ". "; font-weight: bold; font-style: normal; }

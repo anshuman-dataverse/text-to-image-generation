@@ -66,8 +66,9 @@ COCO captions are short and literal (about 10 words), so truncation is never an 
 
 **Pair subset checks** (results/subset_checks.json): 0 missing or unreadable images (all 512×512), 0 empty captions, 0 placeholder captions, 0 duplicate image IDs, 0 duplicate caption IDs. 21 caption texts appear on two or three different images (for example "A man holding a tennis racquet on a tennis court."). They are genuine captions of different photos and are kept. The 25,000-caption pool is used for the embedding checks in Section 5, and the 5,000 pairs are the generation and evaluation set for Milestones 2–3.
 
-![Dataset examples](../screenshots/dataset_examples.png)
-![Caption lengths](../screenshots/caption_lengths.png)
+![Example COCO val2017 images after preprocessing (512×512 center crop) with 3 of their ~5 cleaned captions.](../screenshots/dataset_examples.png)
+
+![Caption length in words (left) and CLIP tokens (right). The dashed line is CLIP's 77-token limit; no caption reaches it.](../screenshots/caption_lengths.png)
 
 ## 4. Model
 
@@ -99,14 +100,15 @@ Our own encoder wrapper (`t2i/embeddings.py`) produces the conditioning tensor, 
 
 Retrieval is 549× better than chance at rank 1. The misses are informative: for "A living area with a television and a table" all five top images are living rooms with TVs, but not the right one. COCO captions often fit several images equally well, so Recall@1 understates alignment. This matters for Milestone 3, where CLIP score will judge generated images. CLIP rewards matching the caption's content, not reproducing the reference photo.
 
-![Caption similarity](../screenshots/caption_similarity.png)
-![Retrieval examples](../screenshots/retrieval_examples.png)
+![Cosine similarity between pooled CLIP caption embeddings. Bright diagonal blocks are captions of the same image.](../screenshots/caption_similarity.png)
+
+![CLIP text→image retrieval: top-5 images for a caption, with the ground-truth image outlined in green.](../screenshots/retrieval_examples.png)
 
 ## 6. First test runs (5 prompts)
 
 Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4, **6.7 s per image** (with attention slicing on).
 
-![Milestone 1 samples](../screenshots/milestone1_samples.png)
+![The five test prompts (SD v1.5, DDIM, 30 steps, w = 7.5, seeds 0–4).](../screenshots/milestone1_samples.png)
 
 | Prompt | Correct | Wrong / missing |
 |---|---|---|
@@ -124,11 +126,11 @@ We encode the 5 prompts with our own `TextEncoder` and pass the 77×768 tensor t
 
 **First run (bug):** the images differed by 47–78 / 255 on average, and three of them broke down completely (below). Our encoder passed CLIP an `attention_mask`, but SD's pipeline does not. Because CLIP's text transformer is causal, the real tokens and the pooled EOS embedding are **bit-identical** either way (we verified this). The 60+ **padding positions**, however, change, and the U-Net cross-attends to all 77. So SD v1.5 has learned to read conditioning from the padding tokens, which is a useful fact for later experiments that edit embeddings. Cached pooled embeddings and the checks in Section 5 are unaffected.
 
-![Masked conditioning (bug)](../screenshots/conditioning_check_masked.png)
+![Conditioning check, first run: SD's built-in prompt encoding (top) vs. our encoder with an attention mask (bottom), first 3 of the 5 prompts. Masking changes the padding tokens and degrades the images.](../screenshots/conditioning_check_masked.png)
 
 **After the fix** (no mask, matching SD): the 77×768 tensors from our encoder equal the pipeline's own text encoding exactly (max abs difference 0.0 at every position), and all 5 images are pixel-identical (mean abs difference 0.0 / 255). External embeddings from `TextEncoder` can therefore drive the U-Net in later milestones with no hidden change in conditioning. A full rerun of steps 01–04 also reproduced every other result and sample image byte for byte.
 
-![Conditioning check after the fix](../screenshots/conditioning_check.png)
+![Conditioning check after the fix: SD's built-in prompt encoding (top) and our encoder without the mask (bottom) give pixel-identical images.](../screenshots/conditioning_check.png)
 
 ## 7. Plan
 

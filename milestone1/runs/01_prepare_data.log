@@ -1,26 +1,37 @@
-code version: f51bd74 Milestone 1: fix notebook repo URL, log code version per run, compare embeddings directly
+code version: d84b53c Milestone 1: 5,000-pair subset manifest with integrity checks, one-page proposal and report PDFs, notebook and README docs
 
 preprocess:   0%|          | 0/5000 [00:00<?, ?it/s]
-preprocess:   8%|▊         | 399/5000 [00:00<00:01, 3984.33it/s]
-preprocess:  16%|█▌        | 798/5000 [00:00<00:01, 3966.95it/s]
-preprocess:  24%|██▍       | 1195/5000 [00:00<00:00, 3863.14it/s]
-preprocess:  32%|███▏      | 1582/5000 [00:00<00:00, 3846.67it/s]
-preprocess:  39%|███▉      | 1967/5000 [00:00<00:00, 3716.21it/s]
-preprocess:  47%|████▋     | 2340/5000 [00:00<00:00, 3634.08it/s]
-preprocess:  54%|█████▍    | 2704/5000 [00:00<00:00, 3598.44it/s]
-preprocess:  61%|██████▏   | 3071/5000 [00:00<00:00, 3619.33it/s]
-preprocess:  69%|██████▉   | 3466/5000 [00:00<00:00, 3719.67it/s]
-preprocess:  77%|███████▋  | 3856/5000 [00:01<00:00, 3774.26it/s]
-preprocess:  85%|████████▍ | 4248/5000 [00:01<00:00, 3818.13it/s]
-preprocess:  93%|█████████▎| 4646/5000 [00:01<00:00, 3865.11it/s]
-preprocess: 100%|██████████| 5000/5000 [00:01<00:00, 3776.36it/s]
+preprocess:   4%|▍         | 192/5000 [00:00<00:02, 1914.68it/s]
+preprocess:   9%|▊         | 426/5000 [00:00<00:02, 2163.21it/s]
+preprocess:  14%|█▎        | 677/5000 [00:00<00:01, 2318.74it/s]
+preprocess:  19%|█▊        | 926/5000 [00:00<00:01, 2383.82it/s]
+preprocess:  24%|██▎       | 1185/5000 [00:00<00:01, 2440.18it/s]
+preprocess:  29%|██▊       | 1431/5000 [00:00<00:01, 2446.77it/s]
+preprocess:  34%|███▍      | 1688/5000 [00:00<00:01, 2485.06it/s]
+preprocess:  39%|███▊      | 1937/5000 [00:00<00:01, 2481.31it/s]
+preprocess:  44%|████▎     | 2186/5000 [00:00<00:01, 2482.85it/s]
+preprocess:  49%|████▉     | 2444/5000 [00:01<00:01, 2512.60it/s]
+preprocess:  54%|█████▍    | 2696/5000 [00:01<00:00, 2485.28it/s]
+preprocess:  59%|█████▉    | 2945/5000 [00:01<00:00, 2427.26it/s]
+preprocess:  64%|██████▍   | 3193/5000 [00:01<00:00, 2438.10it/s]
+preprocess:  69%|██████▉   | 3441/5000 [00:01<00:00, 2446.27it/s]
+preprocess:  74%|███████▍  | 3701/5000 [00:01<00:00, 2481.58it/s]
+preprocess:  79%|███████▉  | 3950/5000 [00:01<00:00, 2467.49it/s]
+preprocess:  84%|████████▍ | 4207/5000 [00:01<00:00, 2497.57it/s]
+preprocess:  89%|████████▉ | 4463/5000 [00:01<00:00, 2515.08it/s]
+preprocess:  94%|█████████▍| 4724/5000 [00:01<00:00, 2541.84it/s]
+preprocess: 100%|█████████▉| 4979/5000 [00:02<00:00, 2486.91it/s]
+preprocess: 100%|██████████| 5000/5000 [00:02<00:00, 2450.88it/s]
+pair subset checks: {"pairs": 5000, "missing_or_unreadable_images": 0, "empty_captions": 0, "placeholder_captions": 0, "duplicate_image_ids": 0, "duplicate_caption_ids": 0, "repeated_caption_texts": 21, "bad_image_files": []}
 {
   "split": "val2017",
   "raw_images": 5000,
+  "raw_annotations": 25014,
   "raw_captions": 25000,
   "images": 5000,
   "captions": 25000,
   "captions_per_image": 5.0,
+  "pairs": 5000,
   "caption_words_mean": 10.44,
   "caption_words_min_max": [
     7,

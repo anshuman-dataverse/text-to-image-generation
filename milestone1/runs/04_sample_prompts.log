@@ -1,24 +1,25 @@
-code version: f51bd74 Milestone 1: fix notebook repo URL, log code version per run, compare embeddings directly
+code version: d84b53c Milestone 1: 5,000-pair subset manifest with integrity checks, one-page proposal and report PDFs, notebook and README docs
 /usr/local/lib/python3.13/dist-packages/diffusers/utils/deprecation_utils.py:23: FutureWarning: `torch_dtype` is deprecated and will be removed in version 1.0.0. Please use `dtype` instead.
   deprecate("torch_dtype", "1.0.0", _TORCH_DTYPE_DEPRECATION_MESSAGE)
 
 Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]
-Loading pipeline components...:  50%|█████     | 3/6 [00:01<00:01,  2.04it/s]
-Loading pipeline components...:  67%|██████▋   | 4/6 [00:14<00:09,  4.63s/it]
+Loading pipeline components...:  17%|█▋        | 1/6 [00:01<00:06,  1.35s/it]
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:07<00:03,  1.95s/it]
 
 Loading weights:   0%|          | 0/196 [00:00<?, ?it/s][A
 
-Loading weights:   1%|          | 2/196 [00:00<01:12,  2.69it/s][A
+Loading weights:   1%|          | 2/196 [00:01<01:56,  1.66it/s][A
 
-Loading weights:  49%|████▉     | 96/196 [00:00<00:00, 152.40it/s][A
+Loading weights:  50%|█████     | 98/196 [00:01<00:00, 103.37it/s][A
 
-Loading weights:  76%|███████▌  | 149/196 [00:00<00:00, 208.97it/s][A
+Loading weights:  79%|███████▉  | 155/196 [00:01<00:00, 112.65it/s][A
 
-Loading weights: 100%|██████████| 196/196 [00:01<00:00, 199.58it/s][A
-Loading weights: 100%|██████████| 196/196 [00:01<00:00, 158.26it/s]
+Loading weights:  98%|█████████▊| 192/196 [00:02<00:00, 111.16it/s][A
+Loading weights: 100%|██████████| 196/196 [00:02<00:00, 93.20it/s] 
 
-Loading pipeline components...: 100%|██████████| 6/6 [00:16<00:00,  2.77s/it]
-Loading pipeline components...: 100%|██████████| 6/6 [00:16<00:00,  2.72s/it]
+Loading pipeline components...:  83%|████████▎ | 5/6 [00:09<00:02,  2.04s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:10<00:00,  1.49s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:10<00:00,  1.67s/it]
 {
   "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
   "scheduler": "ddim",
@@ -30,7 +31,7 @@ Loading pipeline components...: 100%|██████████| 6/6 [00:16<
     512
   ],
   "gpu": "Tesla T4",
-  "seconds_per_image": 7.51,
+  "seconds_per_image": 6.71,
   "samples": [
     {
       "prompt": "A man riding a bicycle down a city street.",
@@ -61,40 +62,37 @@ Loading pipeline components...: 100%|██████████| 6/6 [00:16<
 }
 
 Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]
-Loading weights:   1%|          | 2/196 [00:01<01:44,  1.85it/s]
-Loading weights:  50%|█████     | 98/196 [00:01<00:00, 113.51it/s]
-Loading weights:  79%|███████▉  | 155/196 [00:01<00:00, 123.39it/s]
-Loading weights:  98%|█████████▊| 192/196 [00:01<00:00, 129.23it/s]
-Loading weights: 100%|██████████| 196/196 [00:01<00:00, 105.74it/s]
+Loading weights:  53%|█████▎    | 104/196 [00:00<00:00, 991.32it/s]
+Loading weights: 100%|██████████| 196/196 [00:00<00:00, 1213.13it/s]
 [transformers] [1mCLIPTextModel LOAD REPORT[0m from: openai/clip-vit-large-patch14
 Key                                                            | Status     |  | 
 ---------------------------------------------------------------+------------+--+-
-vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
 vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
 vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
 vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
 vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
-vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
 vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
-logit_scale                                                    | UNEXPECTED |  | 
-visual_projection.weight                                       | UNEXPECTED |  | 
-vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
-vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
-vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+text_projection.weight                                         | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
 vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
 vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
 vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
-vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
-text_projection.weight                                         | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
 
 Notes:
 - UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
