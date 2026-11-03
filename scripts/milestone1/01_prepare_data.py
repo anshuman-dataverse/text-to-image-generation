@@ -1,20 +1,27 @@
 """Download COCO val2017, clean captions, take a subset and resize images to 512x512.
 
-Writes data/processed/{images/, captions.jsonl, pairs.jsonl}, results/dataset_stats.json,
-results/pairs_manifest.csv (one caption per image: the image-caption pair subset),
-results/subset_checks.json and screenshots/{dataset_examples, caption_lengths}.png.
+Writes data/processed/{images/, captions.jsonl, pairs.jsonl} and, in outputs/milestone1/,
+results/dataset_stats.json, results/pairs_manifest.csv (one caption per image: the
+image-caption pair subset), results/subset_checks.json and
+figures/{dataset_examples, caption_lengths}.png.
 """
 import argparse
 import csv
 import json
+import sys
+from pathlib import Path
 
 import numpy as np
 from transformers import CLIPTokenizer
 
-from t2i.config import ROOT, load_config, resolve
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i.config import load_config, output_dir, resolve
 from t2i.data import (check_pairs, download_coco, load_coco_captions, make_pairs,
                       preprocess_images, subset)
 from t2i.plots import caption_lengths, dataset_examples
+
+OUT = output_dir("milestone1")
 
 
 def main():
@@ -40,13 +47,13 @@ def main():
     with open(out / "pairs.jsonl", "w") as f:
         for p in pairs:
             f.write(json.dumps(p) + "\n")
-    (ROOT / "results").mkdir(exist_ok=True)
-    with open(ROOT / "results" / "pairs_manifest.csv", "w", newline="") as f:
+    (OUT / "results").mkdir(exist_ok=True)
+    with open(OUT / "results" / "pairs_manifest.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["image_id", "caption_id", "file_name", "caption"])
         w.writeheader()
         w.writerows(pairs)
     checks = check_pairs(pairs, out / "images", d["image_size"])
-    (ROOT / "results" / "subset_checks.json").write_text(json.dumps(checks, indent=2))
+    (OUT / "results" / "subset_checks.json").write_text(json.dumps(checks, indent=2))
     print("pair subset checks:", json.dumps(checks))
     problems = {k: v for k, v in checks.items() if k.startswith(("missing", "empty", "placeholder", "duplicate")) and v}
     if problems:
@@ -73,10 +80,10 @@ def main():
         "image_size": d["image_size"],
         "seed": d["seed"],
     }
-    (ROOT / "results" / "dataset_stats.json").write_text(json.dumps(stats, indent=2))
+    (OUT / "results" / "dataset_stats.json").write_text(json.dumps(stats, indent=2))
     print(json.dumps(stats, indent=2))
 
-    shots = ROOT / "screenshots"
+    shots = OUT / "figures"
     shots.mkdir(exist_ok=True)
     dataset_examples(kept, out / "images", shots / "dataset_examples.png")
     caption_lengths(words, tokens, shots / "caption_lengths.png")

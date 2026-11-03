@@ -3,10 +3,13 @@
 1. Captions of the same image should be closer than captions of different images.
 2. CLIP text->image retrieval: the shared embedding space should find the right image.
 
-Writes results/embedding_checks.json and screenshots/{caption_similarity, retrieval_examples}.png.
+Writes outputs/milestone1/results/embedding_checks.json and
+outputs/milestone1/figures/{caption_similarity, retrieval_examples}.png.
 """
 import argparse
 import json
+import sys
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -15,7 +18,9 @@ from PIL import Image
 from tqdm import tqdm
 from transformers import CLIPModel, CLIPProcessor
 
-from t2i.config import ROOT, load_config, resolve
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i.config import load_config, output_dir, resolve
 from t2i.data import read_jsonl
 from t2i.embeddings import default_device
 from t2i.plots import retrieval_examples, similarity_matrix
@@ -79,6 +84,8 @@ def retrieval(records: list[dict], img_dir, name: str, n: int, batch: int = 64) 
     res["median_rank"] = int(pos.median().item())
     return res, ranks
 
+OUT = output_dir("milestone1")
+
 
 def main():
     cfg = load_config()
@@ -91,7 +98,7 @@ def main():
     name = cfg["text_encoder"]["name"]
     records = read_jsonl(processed / "captions.jsonl")
     emb = torch.load(processed / f"embeddings_{name.split('/')[-1]}.pt")
-    shots = ROOT / "screenshots"
+    shots = OUT / "figures"
 
     sim_res = caption_similarity(emb, args.sim_images, cfg["data"]["seed"])
     print("caption similarity:", sim_res)
@@ -113,7 +120,7 @@ def main():
                        processed / "images", shots / "retrieval_examples.png")
 
     out = {"encoder": name, "caption_similarity": sim_res, "text_to_image_retrieval": ret_res}
-    (ROOT / "results" / "embedding_checks.json").write_text(json.dumps(out, indent=2))
+    (OUT / "results" / "embedding_checks.json").write_text(json.dumps(out, indent=2))
 
 
 if __name__ == "__main__":

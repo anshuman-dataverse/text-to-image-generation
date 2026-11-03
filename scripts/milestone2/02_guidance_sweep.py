@@ -7,21 +7,25 @@ Each prompt is sampled with 2 seeds so we can measure diversity as well as align
   - colour saturation and clipped-pixel fraction (over-saturation at high w)
 w = 1 means no classifier-free guidance (the conditional model alone, one U-Net pass per step).
 
-Writes results/guidance_sweep.csv, results/guidance_sweep_summary.json and
-screenshots/{guidance_curves, guidance_grid}.png. Images go to outputs/guidance/w<w>/.
+Writes outputs/milestone2/results/guidance_sweep.csv, outputs/milestone2/results/guidance_sweep_summary.json and
+outputs/milestone2/figures/{guidance_curves, guidance_grid}.png. Images go to outputs/milestone2/images/guidance/w<w>/.
 
-    python 02_guidance_sweep.py
-    python 02_guidance_sweep.py --n 8 --scales 1 7.5 15
+    python scripts/milestone2/02_guidance_sweep.py
+    python scripts/milestone2/02_guidance_sweep.py --n 8 --scales 1 7.5 15
 """
 import argparse
 import itertools
 import json
+import sys
+from pathlib import Path
 
 import numpy as np
 import torch
 
-import m2common as m2
-import m2plots as plots
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i import experiments as m2
+from t2i import experiment_plots as plots
 
 
 def main():
@@ -100,7 +104,7 @@ def main():
     for r in rows:
         r.pop("_row")
 
-    res = m2.ROOT / "results"
+    res = m2.OUT / "results"
     m2.write_csv(rows, res / "guidance_sweep.csv")
     out = {"model_id": dc["model_id"], "scheduler": ec["scheduler"], "steps": ec["steps"],
            "seeds_per_prompt": args.seeds, "gpu": m2.gpu_name(), "batch_size": dc["batch_size"],
@@ -108,7 +112,7 @@ def main():
     (res / "guidance_sweep_summary.json").write_text(json.dumps(out, indent=2))
     print(json.dumps(out, indent=2))
 
-    shots = m2.ROOT / "screenshots"
+    shots = m2.OUT / "figures"
     shots.mkdir(exist_ok=True)
     plots.guidance_curves(summary, shots / "guidance_curves.png")
     show = prompts[:3]

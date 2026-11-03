@@ -4,21 +4,25 @@
 Scores every image with CLIP score against its caption and, when the processed COCO images
 are available, also scores the real photo as a reference.
 
-Writes results/baseline.csv, results/baseline_summary.json and
-screenshots/{baseline_gallery, baseline_clip_extremes, baseline_clip_hist}.png.
-Images go to outputs/baseline/ (skipped if already there, so a session can resume).
+Writes outputs/milestone2/results/baseline.csv, outputs/milestone2/results/baseline_summary.json and
+outputs/milestone2/figures/{baseline_gallery, baseline_clip_extremes, baseline_clip_hist}.png.
+Images go to outputs/milestone2/images/baseline/ (skipped if already there, so a session can resume).
 
-    python 01_baseline.py
-    python 01_baseline.py --n 50 --score-only
+    python scripts/milestone2/01_baseline.py
+    python scripts/milestone2/01_baseline.py --n 50 --score-only
 """
 import argparse
 import json
+import sys
+from pathlib import Path
 
 import numpy as np
 import torch
 
-import m2common as m2
-import m2plots as plots
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i import experiments as m2
+from t2i import experiment_plots as plots
 
 
 def main():
@@ -64,7 +68,7 @@ def main():
                      "clip_score": round(float(gen[k]), 3),
                      "clip_score_real": round(float(real[k]), 3) if have_real else "",
                      **{key: round(v, 4) for key, v in m2.image_stats(j["path"]).items()}})
-    res = m2.ROOT / "results"
+    res = m2.OUT / "results"
     m2.write_csv(rows, res / "baseline.csv")
 
     m, e = m2.mean_ci(gen)
@@ -83,7 +87,7 @@ def main():
     (res / "baseline_summary.json").write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))
 
-    shots = m2.ROOT / "screenshots"
+    shots = m2.OUT / "figures"
     shots.mkdir(exist_ok=True)
     pick = list(range(min(8, len(jobs))))
     if have_real:

@@ -10,22 +10,26 @@ Per configuration:
     stochastic ones (DDPM, Euler-a) add fresh noise each step and land on a different image.
   - mean |Δpixel| to the DDIM 50-step image (do all samplers reach the same picture?)
 
-Writes results/scheduler_sweep.csv, results/scheduler_sweep_summary.json and
-screenshots/{scheduler_heatmaps, scheduler_clip_vs_steps, scheduler_grid}.png.
-Images go to outputs/schedulers/<scheduler>_<steps>/.
+Writes outputs/milestone2/results/scheduler_sweep.csv, outputs/milestone2/results/scheduler_sweep_summary.json and
+outputs/milestone2/figures/{scheduler_heatmaps, scheduler_clip_vs_steps, scheduler_grid}.png.
+Images go to outputs/milestone2/images/schedulers/<scheduler>_<steps>/.
 
-    python 03_scheduler_sweep.py
-    python 03_scheduler_sweep.py --n 8 --schedulers ddim dpmpp --steps 10 50
+    python scripts/milestone2/03_scheduler_sweep.py
+    python scripts/milestone2/03_scheduler_sweep.py --n 8 --schedulers ddim dpmpp --steps 10 50
 """
 import argparse
 import json
+import sys
+from pathlib import Path
 
 import numpy as np
 import torch
 from PIL import Image
 
-import m2common as m2
-import m2plots as plots
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i import experiments as m2
+from t2i import experiment_plots as plots
 
 STOCHASTIC = {"ddpm", "euler_a"}
 
@@ -110,7 +114,7 @@ def main():
                 "pixel_diff_to_ddim50": round(float(np.mean(px_ddim)), 2) if px_ddim else None,
             })
 
-    res = m2.ROOT / "results"
+    res = m2.OUT / "results"
     keys = list(dict.fromkeys(k for r in rows for k in r))
     m2.write_csv([{k: r.get(k, "") for k in keys} for r in rows], res / "scheduler_sweep.csv")
     out = {"model_id": dc["model_id"], "guidance": ec["guidance"], "prompts": len(prompts),
@@ -119,7 +123,7 @@ def main():
     (res / "scheduler_sweep_summary.json").write_text(json.dumps(out, indent=2))
     print(json.dumps(out, indent=2))
 
-    shots = m2.ROOT / "screenshots"
+    shots = m2.OUT / "figures"
     shots.mkdir(exist_ok=True)
     plots.scheduler_heatmaps(summary, args.schedulers, steps_list, shots / "scheduler_heatmaps.png")
     plots.scheduler_lines(summary, args.schedulers, shots / "scheduler_clip_vs_steps.png")

@@ -1,34 +1,32 @@
-"""Shared helpers for Milestone 2: prompts, seeded batch generation with resume, CLIP score,
-image statistics. Reuses the Milestone 1 `t2i` package (pipeline loading, schedulers, grids)."""
+"""Shared helpers for the Milestone 2 experiments: prompts, seeded batch generation with resume,
+CLIP score and image statistics. Builds on the rest of the `t2i` package (pipeline loading,
+schedulers, grids)."""
 
 import csv
 import json
 import os
-import sys
 import time
 from pathlib import Path
 
 import numpy as np
+import torch
+import torch.nn.functional as F
 import yaml
+from PIL import Image
+from tqdm import tqdm
 
-ROOT = Path(__file__).resolve().parents[1]          # milestone2/
-REPO = ROOT.parent
-sys.path.insert(0, str(REPO / "milestone1" / "scripts"))
+from .config import CONFIGS, ROOT, output_dir
+from .embeddings import default_device
+from .generate import load_pipeline, make_grid, set_scheduler  # noqa: F401  (re-exported for the scripts)
 
-import torch  # noqa: E402
-import torch.nn.functional as F  # noqa: E402
-from PIL import Image  # noqa: E402
-from tqdm import tqdm  # noqa: E402
-
-from t2i.embeddings import default_device  # noqa: E402
-from t2i.generate import load_pipeline, make_grid, set_scheduler  # noqa: E402,F401
+OUT = output_dir("milestone2")  # results/, figures/ and logs/ of Milestone 2
 
 SEED_STRIDE = 10_000  # seed of prompt i, repeat k = i + k * SEED_STRIDE
 
 
 def load_config(path: str | Path | None = None) -> dict:
-    """configs/default.yaml, or the file named by $M2_CONFIG (used for quick local tests)."""
-    path = path or os.environ.get("M2_CONFIG") or ROOT / "configs" / "default.yaml"
+    """configs/milestone2.yaml, or the file named by $M2_CONFIG (used for quick local tests)."""
+    path = path or os.environ.get("M2_CONFIG") or CONFIGS / "milestone2.yaml"
     with open(path) as f:
         return yaml.safe_load(f)
 

@@ -1,7 +1,8 @@
+# Milestone 2 settings. Paths are relative to the repository root.
 prompts:
-  manifest: ../milestone1/results/pairs_manifest.csv   # 5,000 COCO val2017 image–caption pairs
-  coco_images: ../milestone1/data/processed/images      # optional: real images for side-by-side figures
-  seed: 42                                              # fixed shuffle; experiments use prefixes of it
+  manifest: outputs/milestone1/results/pairs_manifest.csv   # 5,000 COCO val2017 image-caption pairs
+  coco_images: data/processed/images                        # optional: real images for side-by-side figures
+  seed: 42                                                  # fixed shuffle; experiments use prefixes of it
 
 diffusion:
   model_id: stable-diffusion-v1-5/stable-diffusion-v1-5
@@ -10,7 +11,7 @@ diffusion:
   batch_size: 4
   attention_slicing: false   # PyTorch SDPA is faster and fits a T4 at batch 4
 
-outputs: outputs             # generated images (git-ignored; on Colab a link to Google Drive)
+outputs: outputs/milestone2/images   # generated images (git-ignored; on Colab a link to Google Drive)
 
 clip_score:
   model: openai/clip-vit-large-patch14   # torchmetrics' default CLIP-score backbone

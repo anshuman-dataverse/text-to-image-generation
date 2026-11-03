@@ -13,7 +13,7 @@ Submitted November 6, 2026
 | Rohan Prakash Krishna Prakash | 002317798 |
 | Sree Ramya Pasala | 002301508 |
 
-GitHub repository: <https://github.com/anshuman-dataverse/text-to-image-generation>. All Milestone 1 code, results and figures are in the `milestone1/` folder, and the whole milestone can be rerun on Google Colab with [milestone1_colab.ipynb](../notebooks/milestone1_colab.ipynb). The one-page proposal is in [Milestone1_Proposal.pdf](Milestone1_Proposal.pdf).
+GitHub repository: <https://github.com/anshuman-dataverse/text-to-image-generation>. The shared code is in `src/t2i/`, the Milestone 1 scripts are in `scripts/milestone1/`, and their results, figures and logs are in `outputs/milestone1/`. File names like `results/pairs_manifest.csv` in this report are relative to that folder. The whole milestone can be rerun on Google Colab with [notebooks/milestone1_colab.ipynb](../../notebooks/milestone1_colab.ipynb). The one-page proposal is in [Milestone1_Proposal.pdf](Milestone1_Proposal.pdf).
 
 ## 1. Introduction
 
@@ -31,7 +31,7 @@ Three things made COCO the best fit. Most text-to-image papers report FID agains
 
 ### 2.2 Cleaning and preprocessing
 
-The script `01_prepare_data.py` downloads COCO and cleans it. For each caption we normalize whitespace, capitalize the first letter and end it with a single period. We then drop captions shorter than three words and remove exact duplicates within an image. In practice no caption was too short and 14 were duplicates, which leaves 25,000 captions.
+The script `scripts/milestone1/01_prepare_data.py` downloads COCO and cleans it. For each caption we normalize whitespace, capitalize the first letter and end it with a single period. We then drop captions shorter than three words and remove exact duplicates within an image. In practice no caption was too short and 14 were duplicates, which leaves 25,000 captions.
 
 From this pool we built the working subset by picking one caption per image at random (seed 42), giving 5,000 pairs. While checking the pairs we noticed 14 captions that annotators had left as placeholders, such as "I am unable to see an image above.", so the selection skips them. The file `results/pairs_manifest.csv` lists the image ID, caption ID, file name and caption for every pair.
 
@@ -53,9 +53,9 @@ COCO captions are short and literal, about ten words on average, so the 77-token
 
 We also checked the 5,000 pairs themselves (`results/subset_checks.json`). Every image exists and opens at 512×512, no caption is empty or a placeholder, and no image ID or caption ID appears twice. Twenty-one caption texts are shared by two or three different images, for example "A man holding a tennis racquet on a tennis court." These are genuine captions of different photos, so we kept them. The full pool of 25,000 captions is used for the embedding checks in Section 4, and the 5,000 pairs will be the generation and evaluation set in Milestones 2 and 3.
 
-![Sample COCO images after resizing and cropping to 512×512, each shown with three of its captions.](../screenshots/dataset_examples.png)
+![Sample COCO images after resizing and cropping to 512×512, each shown with three of its captions.](../../outputs/milestone1/figures/dataset_examples.png)
 
-![Caption length in words (left) and in CLIP tokens (right). The red dashed line marks CLIP's 77-token limit, which no caption reaches.](../screenshots/caption_lengths.png)
+![Caption length in words (left) and in CLIP tokens (right). The red dashed line marks CLIP's 77-token limit, which no caption reaches.](../../outputs/milestone1/figures/caption_lengths.png)
 
 ## 3. Model and environment
 
@@ -70,9 +70,9 @@ Table 2. Components of the pipeline.
 
 To generate an image, CLIP encodes the prompt, the U-Net removes noise from a random latent over a number of steps while attending to the prompt embeddings, and the VAE decodes the final latent into a 512×512 image. With classifier-free guidance the U-Net is run twice at each step, once with the prompt and once with an empty prompt, and the two noise predictions are combined as ε̂ = ε(x_t, ∅) + w · (ε(x_t, c) − ε(x_t, ∅)). A larger guidance scale w makes the image follow the prompt more closely but makes images for the same prompt less varied.
 
-We wrote our own wrapper around the text encoder (`t2i/embeddings.py`) instead of letting the Diffusers pipeline encode the prompt, and `t2i/generate.py` passes its output to the U-Net as `prompt_embeds`. This lets us replace or change the text representation in later milestones, for example by using BERT, interpolating between prompts or weighting parts of a prompt.
+We wrote our own wrapper around the text encoder (`src/t2i/embeddings.py`) instead of letting the Diffusers pipeline encode the prompt, and `src/t2i/generate.py` passes its output to the U-Net as `prompt_embeds`. This lets us replace or change the text representation in later milestones, for example by using BERT, interpolating between prompts or weighting parts of a prompt.
 
-**Environment.** We use Python with PyTorch (2.1 or newer) and torchvision, Hugging Face Diffusers (0.30 or newer) for Stable Diffusion and the schedulers, and Hugging Face Transformers (4.44 or newer) for CLIP. From CLIP we use the tokenizer, the text encoder and the image encoder, which we need for the retrieval check. Accelerate and safetensors are used for loading the models, and the complete list is in `requirements.txt`. All runs used Google Colab with a Tesla T4 GPU (16 GB) in half precision. The notebook installs the requirements, mounts Google Drive to store the COCO data and the outputs, and records the git commit of the code at the top of every log in `runs/`. Both models are public on the Hugging Face Hub, so no access token is needed.
+**Environment.** We use Python with PyTorch (2.1 or newer) and torchvision, Hugging Face Diffusers (0.30 or newer) for Stable Diffusion and the schedulers, and Hugging Face Transformers (4.44 or newer) for CLIP. From CLIP we use the tokenizer, the text encoder and the image encoder, which we need for the retrieval check. Accelerate and safetensors are used for loading the models, and the complete list is in `requirements.txt`. All runs used Google Colab with a Tesla T4 GPU (16 GB) in half precision. The notebook installs the requirements, mounts Google Drive to store the COCO data and the outputs, and records the git commit of the code at the top of every log in `logs/`. Both models are public on the Hugging Face Hub, so no access token is needed.
 
 ## 4. Text-to-embedding pipeline and checks
 
@@ -94,15 +94,15 @@ Table 3. Embedding checks (`results/embedding_checks.json`).
 
 Both checks passed by a wide margin. Recall@1 is 54.9% where chance would give 0.1%, and for more than half of the captions the correct image is ranked first. Most of the misses were reasonable. For the caption "A living area with a television and a table", all five top results were living rooms with a TV, just not the one the caption was written for. Many COCO captions describe several images equally well, so Recall@1 underestimates how well the text and image embeddings line up. We will keep this in mind in Milestone 3, because CLIP score measures whether a generated image fits its caption, not whether it looks like the original COCO photo.
 
-![Cosine similarity between the pooled CLIP embeddings of 40 captions. Each bright block on the diagonal is a group of captions describing the same image.](../screenshots/caption_similarity.png)
+![Cosine similarity between the pooled CLIP embeddings of 40 captions. Each bright block on the diagonal is a group of captions describing the same image.](../../outputs/milestone1/figures/caption_similarity.png)
 
-![Top five images retrieved by CLIP for five captions. The correct image has a green border.](../screenshots/retrieval_examples.png)
+![Top five images retrieved by CLIP for five captions. The correct image has a green border.](../../outputs/milestone1/figures/retrieval_examples.png)
 
 ## 5. First test runs
 
 The script `04_sample_prompts.py` generated one image for each of five prompts we wrote ourselves. We used SD v1.5 with the DDIM scheduler, 30 sampling steps, guidance scale 7.5 and seeds 0 to 4, at 512×512 in half precision. On the T4 with attention slicing turned on, each image took 6.7 seconds. The prompts start with a single subject and add more objects and attributes as they go.
 
-![The five test images (SD v1.5, DDIM, 30 steps, guidance 7.5, seeds 0 to 4).](../screenshots/milestone1_samples.png)
+![The five test images (SD v1.5, DDIM, 30 steps, guidance 7.5, seeds 0 to 4).](../../outputs/milestone1/figures/milestone1_samples.png)
 
 Table 4. What each test image gets right and wrong.
 
@@ -124,9 +124,9 @@ On the first try they were not. The mean pixel difference was between 47 and 78 
 
 After we removed the mask, our tensors were exactly equal to the pipeline's own encoding (maximum absolute difference 0.0 at every position), and all five images were pixel-identical (Figure 7). We then reran scripts 01 to 04 from the start, and every result and sample image came out byte for byte the same.
 
-![First conditioning check, with the attention mask. Top row: SD's built-in prompt encoding. Bottom row: our encoder. The first three of the five prompts are shown.](../screenshots/conditioning_check_masked.png)
+![First conditioning check, with the attention mask. Top row: SD's built-in prompt encoding. Bottom row: our encoder. The first three of the five prompts are shown.](../../outputs/milestone1/figures/conditioning_check_masked.png)
 
-![Conditioning check after the fix. The images from SD's built-in prompt encoding (top) and from our encoder (bottom) are pixel-identical.](../screenshots/conditioning_check.png)
+![Conditioning check after the fix. The images from SD's built-in prompt encoding (top) and from our encoder (bottom) are pixel-identical.](../../outputs/milestone1/figures/conditioning_check.png)
 
 ## 6. Plan
 

@@ -4,10 +4,12 @@ __pycache__/
 .venv/
 .DS_Store
 
-# COCO download, processed images and cached embeddings: recreated by 01/02
-milestone*/data/
+# COCO download, processed images and cached embeddings: recreated by scripts/milestone1/01 and 02
+data
 # generated images (Milestone 2+): on Google Drive; no trailing slash so a Colab symlink matches too
-milestone*/outputs
+outputs/*/images
+# Colab output archives
+*_outputs*.zip
 *.pt
 *.safetensors
 *.zip

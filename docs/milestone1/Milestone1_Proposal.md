@@ -11,7 +11,7 @@ We will build a text-to-image pipeline in which a Transformer text encoder condi
 
 We use the validation split of MS COCO Captions 2017: 5,000 photos of everyday scenes (80 object categories), each with about five human-written captions. It is the usual reference set for text-to-image FID, and its multi-object scenes test whether the model follows the whole prompt.
 
-- Working subset: 5,000 image-caption pairs, using one caption per image picked at random (seed 42). The list is in `results/pairs_manifest.csv`. All 25,000 cleaned captions are kept for the embedding checks.
+- Working subset: 5,000 image-caption pairs, using one caption per image picked at random (seed 42). The list is in `outputs/milestone1/results/pairs_manifest.csv`. All 25,000 cleaned captions are kept for the embedding checks.
 - Cleaning: we normalized whitespace and punctuation, removed captions shorter than three words and exact duplicates (25,014 down to 25,000), and skipped annotator placeholder captions when choosing pairs. No image is missing and no caption is empty or repeated.
 - Preprocessing: images are resized so the shorter side is 512, center-cropped to 512×512 and scaled to [-1, 1]. Captions are tokenized with CLIP's tokenizer and padded to 77 tokens. The longest caption has 58 tokens, so none are truncated.
 

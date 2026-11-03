@@ -3,20 +3,24 @@
 Also checks that embeddings from our own CLIP encoder (t2i.embeddings) drive the
 U-Net the same way as a plain prompt string.
 
-Writes results/samples/{sample_XX.png, metadata.json}, results/conditioning_check.json
-and screenshots/{milestone1_samples, conditioning_check}.png.
+Writes, in outputs/milestone1/, results/samples/{sample_XX.png, metadata.json},
+results/conditioning_check.json and figures/{milestone1_samples, conditioning_check}.png.
 
-    python 04_sample_prompts.py
-    python 04_sample_prompts.py --scheduler dpmpp --steps 25 --guidance 5
+    python scripts/milestone1/04_sample_prompts.py
+    python scripts/milestone1/04_sample_prompts.py --scheduler dpmpp --steps 25 --guidance 5
 """
 import argparse
 import json
+import sys
 import time
+from pathlib import Path
 
 import numpy as np
 import torch
 
-from t2i.config import ROOT, load_config
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
+
+from t2i.config import load_config, output_dir
 from t2i.embeddings import TextEncoder
 from t2i.generate import encode_prompt, generate, load_pipeline, make_grid, save_images
 
@@ -28,6 +32,8 @@ DEFAULT_PROMPTS = [
     "A red double-decker bus parked next to a blue car.",
     "A cat sitting on a windowsill watching the rain at sunset.",
 ]
+
+OUT = output_dir("milestone1")
 
 
 def main():
@@ -51,9 +57,9 @@ def main():
     images = generate(pipe, args.prompts, **gen)
     elapsed = time.time() - t0
 
-    out = ROOT / "results" / "samples"
+    out = OUT / "results" / "samples"
     paths = save_images(images, out, prefix="sample")
-    make_grid(images, args.prompts).save(ROOT / "screenshots" / "milestone1_samples.png")
+    make_grid(images, args.prompts).save(OUT / "figures" / "milestone1_samples.png")
     meta = {
         "model_id": dc["model_id"], "scheduler": args.scheduler, "steps": args.steps,
         "guidance_scale": args.guidance, "seed": args.seed, "size": [dc["height"], dc["width"]],
@@ -84,11 +90,11 @@ def main():
         "max_mean_abs_pixel_diff": round(max(diffs), 3),
         "note": "0 to a few /255 means our CLIP embeddings condition the U-Net identically to the built-in path",
     }
-    (ROOT / "results" / "conditioning_check.json").write_text(json.dumps(check, indent=2))
+    (OUT / "results" / "conditioning_check.json").write_text(json.dumps(check, indent=2))
     print(json.dumps(check, indent=2))
     make_grid(images[:3] + ext[:3], [f"prompt string: {p}" for p in args.prompts[:3]] +
               [f"external embeddings: {p}" for p in args.prompts[:3]], cols=3).save(
-        ROOT / "screenshots" / "conditioning_check.png")
+        OUT / "figures" / "conditioning_check.png")
 
 
 if __name__ == "__main__":

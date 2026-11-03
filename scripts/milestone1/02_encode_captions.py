@@ -2,10 +2,14 @@
 
 Writes data/processed/embeddings_<encoder>.pt (pooled embeddings for every caption).
 
-    python 02_encode_captions.py
-    python 02_encode_captions.py --encoder bert-base-uncased --kind bert
+    python scripts/milestone1/02_encode_captions.py
+    python scripts/milestone1/02_encode_captions.py --encoder bert-base-uncased --kind bert
 """
 import argparse
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))  # make the t2i package importable
 
 from t2i.config import load_config, resolve
 from t2i.data import read_jsonl
