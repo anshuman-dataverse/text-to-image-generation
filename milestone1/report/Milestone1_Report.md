@@ -1,6 +1,9 @@
-# Project Proposal & Setup – From Words to Worlds (Milestone 1)
+# Milestone 1: Project Proposal and Setup
 
-**Northeastern University · IE 7615 · Fall 2026 · Generative Project · November 6, 2026**
+## From Words to Worlds: Text-to-Image Generation with Transformers and Diffusion
+
+IE 7615 Generative Project, Fall 2026, Northeastern University\
+Submitted November 6, 2026
 
 **Group 1**
 
@@ -10,147 +13,140 @@
 | Rohan Prakash Krishna Prakash | 002317798 |
 | Sree Ramya Pasala | 002301508 |
 
-PDF version: [Milestone1_Report.pdf](Milestone1_Report.pdf) · One-page proposal: [Milestone1_Proposal.pdf](Milestone1_Proposal.pdf)
+GitHub repository: <https://github.com/anshuman-dataverse/text-to-image-generation>. All Milestone 1 code, results and figures are in the `milestone1/` folder, and the whole milestone can be rerun on Google Colab with [milestone1_colab.ipynb](../notebooks/milestone1_colab.ipynb). The one-page proposal is in [Milestone1_Proposal.pdf](Milestone1_Proposal.pdf).
 
-## Repository
+## 1. Introduction
 
-GitHub: <https://github.com/anshuman-dataverse/text-to-image-generation>
+Our project connects a Transformer text encoder to a pre-trained diffusion model and looks at how the way we condition the model affects the images it produces. We use the text encoder of CLIP ViT-L/14 and Stable Diffusion v1.5. Over the semester we will vary the classifier-free guidance scale, the noise scheduler, the number of sampling steps and the text encoder. For each setting we will measure image quality (FID and Inception Score), how well the image matches the prompt (CLIP score) and how varied the images are, and we will also judge the images by eye.
 
-Code, results and figures are in the milestone1/ folder of the repository. The whole milestone runs on Google Colab from [milestone1_colab.ipynb](../notebooks/milestone1_colab.ipynb).
+For this first milestone we prepared the dataset, set up the environment, built the pipeline that turns text into embeddings, checked that those embeddings make sense, and generated our first five images. Everything ran end to end on a Colab Tesla T4. After cleaning we have all 5,000 COCO val2017 images and 25,000 of the 25,014 captions, and a working subset of 5,000 image-caption pairs. Captions of the same image are much more similar to each other than captions of different images (mean cosine similarity 0.656 against 0.234), and CLIP picks the correct image for a caption out of 1,000 candidates 54.9% of the time. Stable Diffusion needed 6.7 seconds per image. The five test images look realistic but already show two problems we want to study: an object left out of the image and a color applied to the wrong object. We also found and fixed a bug in how we passed our own embeddings to the model (Section 5.1).
 
-## 1. Summary
+## 2. Dataset
 
-We are building a text-to-image pipeline in which a Transformer text encoder (**CLIP ViT-L/14**) conditions a pre-trained latent diffusion model (**Stable Diffusion v1.5**). We will then measure how the conditioning choices (guidance scale, noise scheduler, number of sampling steps, text encoder) trade off image fidelity, diversity and prompt alignment. Milestone 1 delivers the dataset, the text→embedding pipeline, embedding sanity checks and the first 5 prompt→image samples.
+### 2.1 Choice of dataset
 
-The pipeline ran end to end on a Colab Tesla T4. All **5,000 COCO val2017 images** and 25,000 of the 25,014 captions passed cleaning (14 were exact duplicates). The working subset is **5,000 image–caption pairs**, one caption per image, and no caption exceeds CLIP's 77-token window (max 58). The CLIP embeddings behave as conditioning should. Captions of the same image are far closer than captions of different images (cosine 0.656 vs. 0.234, pairwise AUC 0.985). CLIP retrieves the right image from its caption among 1,000 candidates **54.9%** of the time at rank 1 and **89.7%** within the top 10 (chance 0.1% / 1%). Stable Diffusion produced 5 plausible 512×512 samples at 6.7 s/image. They already show the classic failure modes we will study: a dropped object (the frisbee) and attribute leakage (the "blue car" became a blue-fronted bus). Feeding our own embeddings to the U-Net first exposed a subtle bug: masking CLIP's padding tokens changes 60+ of the 77 conditioning positions and degrades the images. After the fix, our embeddings match SD's own encoding bit for bit and produce pixel-identical images (Section 6).
+We chose the 2017 validation split of MS COCO Captions. It contains 5,000 photos of everyday scenes covering 80 object categories, and each photo has about five captions written by people (25,014 in total).
 
-## 2. Objective
+Three things made COCO the best fit. Most text-to-image papers report FID against this set, so our numbers can be compared with published ones. Its scenes usually contain several objects, which tests whether the model follows the whole prompt and not just the main subject. And 5,000 images is within the 1k to 5k range given in the assignment, so we did not need the 18 GB training split. We also considered Flickr30k, but it is mostly photos of people and is rarely used for FID. We ruled out a LAION-400M subset because its captions are noisy web alt-text and many of its image links no longer work, which would make our subset hard for anyone else to rebuild.
 
-Generate images from text with a Transformer encoder and a diffusion model, then evaluate them quantitatively (FID, Inception Score, CLIP score) and qualitatively (prompt–image alignment), and analyze fidelity vs. diversity and the ethical risks. Milestone 1 covers the dataset choice and preprocessing, the environment, the text→embedding pipeline and the baseline test runs.
+### 2.2 Cleaning and preprocessing
 
-## 3. Dataset
+The script `01_prepare_data.py` downloads COCO and cleans it. For each caption we normalize whitespace, capitalize the first letter and end it with a single period. We then drop captions shorter than three words and remove exact duplicates within an image. In practice no caption was too short and 14 were duplicates, which leaves 25,000 captions.
 
-### 3.1 Choice: COCO Captions 2017 (val)
+From this pool we built the working subset by picking one caption per image at random (seed 42), giving 5,000 pairs. While checking the pairs we noticed 14 captions that annotators had left as placeholders, such as "I am unable to see an image above.", so the selection skips them. The file `results/pairs_manifest.csv` lists the image ID, caption ID, file name and caption for every pair.
 
-| Property | Value |
+Images are converted to RGB, resized so that the shorter side is 512 pixels (bicubic), and center-cropped to 512×512, which is the resolution Stable Diffusion v1.5 was trained at. For the model they are converted to tensors and normalized to [-1, 1], the input range of the VAE. Captions are tokenized with CLIP's BPE tokenizer and padded to 77 tokens.
+
+Table 1. Dataset statistics (`results/dataset_stats.json`).
+
+| Statistic | Value |
 |---|---|
-| Images | 5,000 natural photos, 80 object categories, multi-object everyday scenes |
-| Captions | ~5 human-written captions per image (25,014 total) |
-| Working subset | **5,000 image–caption pairs**, one caption per image (`results/pairs_manifest.csv`) |
-| Why | standard reference set for text-to-image FID (comparable to published numbers); compositional scenes test alignment; 5k images fit the 1k–5k scope without the 18 GB train split |
-
-Alternatives considered: Flickr30k (people-centric, rarely used for FID) and a LAION-400M subset (noisy web alt-text, and broken links make it hard to reproduce).
-
-### 3.2 Cleaning and preprocessing
-
-| Step | Detail |
-|---|---|
-| Captions | whitespace normalization, capitalized, single trailing period, exact duplicates per image removed, captions under 3 words dropped |
-| Subset | seeded random sample (seed 42) of _N_ images (default all 5,000) |
-| Pairs | one caption per image, random pick with seed 42, skipping annotator placeholders such as "I am unable to see an image above." (14 in the pool) |
-| Images | RGB, shorter side resized to 512 (bicubic), center-crop 512×512, which is SD v1.5's native resolution |
-| Tensors | `ToTensor` + `Normalize(0.5, 0.5)` → [-1, 1], the VAE input range |
-| Tokens | CLIP BPE tokenizer, padded/truncated to 77 tokens |
-
-| **Statistic** (results/dataset_stats.json) | **Value** |
-|---|---|
-| Images / captions after cleaning | 5,000 / 25,000 (from 25,014; 14 exact duplicates removed) |
-| Image–caption pairs (results/pairs_manifest.csv) | 5,000 |
+| Images / captions after cleaning | 5,000 / 25,000 (from 25,014) |
+| Image-caption pairs in the working subset | 5,000 |
 | Captions per image | 5.0 |
-| Words per caption: mean (min–max) | 10.44 (7–50) |
-| CLIP tokens per caption: mean / max | 13.78 / 58 |
+| Words per caption, mean (min to max) | 10.44 (7 to 50) |
+| CLIP tokens per caption, mean / max | 13.78 / 58 |
 | Captions truncated at 77 tokens | 0 |
 | Image size | 512×512 |
 
-COCO captions are short and literal (about 10 words), so truncation is never an issue. The real constraint is that the prompts describe ordinary scenes rather than artistic styles. That makes COCO a good test of *content* alignment, and a poor test of style control.
+COCO captions are short and literal, about ten words on average, so the 77-token limit is never reached. The more important limitation is what the captions describe. They talk about ordinary scenes and never mention an artistic style, so COCO is a good test of whether the right content appears in the image and a poor test of style control.
 
-**Pair subset checks** (results/subset_checks.json): 0 missing or unreadable images (all 512×512), 0 empty captions, 0 placeholder captions, 0 duplicate image IDs, 0 duplicate caption IDs. 21 caption texts appear on two or three different images (for example "A man holding a tennis racquet on a tennis court."). They are genuine captions of different photos and are kept. The 25,000-caption pool is used for the embedding checks in Section 5, and the 5,000 pairs are the generation and evaluation set for Milestones 2–3.
+We also checked the 5,000 pairs themselves (`results/subset_checks.json`). Every image exists and opens at 512×512, no caption is empty or a placeholder, and no image ID or caption ID appears twice. Twenty-one caption texts are shared by two or three different images, for example "A man holding a tennis racquet on a tennis court." These are genuine captions of different photos, so we kept them. The full pool of 25,000 captions is used for the embedding checks in Section 4, and the 5,000 pairs will be the generation and evaluation set in Milestones 2 and 3.
 
-![Example COCO val2017 images after preprocessing (512×512 center crop) with 3 of their ~5 cleaned captions.](../screenshots/dataset_examples.png)
+![Sample COCO images after resizing and cropping to 512×512, each shown with three of its captions.](../screenshots/dataset_examples.png)
 
-![Caption length in words (left) and CLIP tokens (right). The dashed line is CLIP's 77-token limit; no caption reaches it.](../screenshots/caption_lengths.png)
+![Caption length in words (left) and in CLIP tokens (right). The red dashed line marks CLIP's 77-token limit, which no caption reaches.](../screenshots/caption_lengths.png)
 
-## 4. Model
+## 3. Model and environment
 
-| Component | Model | Role |
+Table 2. Components of the pipeline.
+
+| Component | Model | What it does |
 |---|---|---|
-| Text encoder | CLIP ViT-L/14 text transformer (123M params, 12 layers) | caption → per-token embeddings (77×768) + pooled embedding (768) |
-| Denoiser | SD v1.5 U-Net (860M params) with cross-attention | predicts noise ε(x_t, t, c), attending to the 77×768 text context |
-| Autoencoder | SD v1.5 VAE | 512×512×3 image ↔ 64×64×4 latent |
-| Schedulers | DDIM, DDPM, PNDM, Euler, Euler-A, DPM-Solver++ | reverse-diffusion samplers sharing the trained β-schedule |
-| Guidance | classifier-free, ε̂ = ε(x_t, ∅) + w·(ε(x_t, c) − ε(x_t, ∅)) | trades alignment for diversity |
+| Text encoder | CLIP ViT-L/14 text transformer (123M parameters, 12 layers) | turns a caption into per-token embeddings (77×768) and a pooled embedding (768) |
+| Denoiser | SD v1.5 U-Net (860M parameters) with cross-attention | predicts the noise ε(x_t, t, c) while attending to the 77×768 text embeddings |
+| Autoencoder | SD v1.5 VAE | maps a 512×512×3 image to a 64×64×4 latent and back |
+| Schedulers | DDIM, DDPM, PNDM, Euler, Euler ancestral, DPM-Solver++ | different samplers for the reverse diffusion, all using the noise schedule SD was trained with |
 
-Our own encoder wrapper (`t2i/embeddings.py`) produces the conditioning tensor, and `t2i/generate.py` passes it to the U-Net as `prompt_embeds`. This lets later milestones swap or modify the text representation (BERT, interpolation, prompt weighting).
+To generate an image, CLIP encodes the prompt, the U-Net removes noise from a random latent over a number of steps while attending to the prompt embeddings, and the VAE decodes the final latent into a 512×512 image. With classifier-free guidance the U-Net is run twice at each step, once with the prompt and once with an empty prompt, and the two noise predictions are combined as ε̂ = ε(x_t, ∅) + w · (ε(x_t, c) − ε(x_t, ∅)). A larger guidance scale w makes the image follow the prompt more closely but makes images for the same prompt less varied.
 
-**Environment.** Python with PyTorch (≥ 2.1) and torchvision, 🤗 Diffusers (≥ 0.30) for Stable Diffusion and the schedulers, 🤗 Transformers (≥ 4.44) for CLIP (tokenizer, text encoder and the image tower used for retrieval), and Accelerate and safetensors for model loading (`requirements.txt`). Everything runs on Google Colab with a Tesla T4 (16 GB) in fp16. The notebook installs `requirements.txt`, mounts Google Drive for the COCO data and outputs, and logs the git commit of the code used in every run (`runs/*.log`). Both models are public on the Hugging Face Hub, so no access token is needed.
+We wrote our own wrapper around the text encoder (`t2i/embeddings.py`) instead of letting the Diffusers pipeline encode the prompt, and `t2i/generate.py` passes its output to the U-Net as `prompt_embeds`. This lets us replace or change the text representation in later milestones, for example by using BERT, interpolating between prompts or weighting parts of a prompt.
 
-## 5. Text → embedding pipeline and sanity checks
+**Environment.** We use Python with PyTorch (2.1 or newer) and torchvision, Hugging Face Diffusers (0.30 or newer) for Stable Diffusion and the schedulers, and Hugging Face Transformers (4.44 or newer) for CLIP. From CLIP we use the tokenizer, the text encoder and the image encoder, which we need for the retrieval check. Accelerate and safetensors are used for loading the models, and the complete list is in `requirements.txt`. All runs used Google Colab with a Tesla T4 GPU (16 GB) in half precision. The notebook installs the requirements, mounts Google Drive to store the COCO data and the outputs, and records the git commit of the code at the top of every log in `runs/`. Both models are public on the Hugging Face Hub, so no access token is needed.
 
-1. **Caption similarity:** captions of the same image should be closer than captions of different images.
-2. **Text→image retrieval:** CLIP's text and image towers share one space, so each image should be found from its own caption among the candidate images.
+## 4. Text-to-embedding pipeline and checks
 
-| **Check** (results/embedding_checks.json) | **Result** |
+The script `02_encode_captions.py` runs every caption through the CLIP text encoder and saves two outputs. The per-token embeddings (77×768) are what the U-Net reads through cross-attention, and the pooled embedding (768) is a single vector per caption that we use for comparisons. Before relying on these embeddings for generation, we ran two checks in `03_embedding_checks.py`:
+
+1. Caption similarity. Captions of the same image should be closer to each other than captions of different images.
+2. Text-to-image retrieval. CLIP's text and image encoders map into the same space, so each caption should find its own image among a set of candidate images.
+
+Table 3. Embedding checks (`results/embedding_checks.json`).
+
+| Check | Result |
 |---|---|
-| Caption cosine similarity, same image (1,000 images, 5,000 captions) | 0.656 |
-| Caption cosine similarity, different images | 0.234 |
-| P(same-image pair > different-image pair) | 0.985 |
-| Text→image Recall@1 / @5 / @10 (1,000 images) | 54.9% / 81.1% / 89.7% |
-| Chance @1 / @5 / @10 | 0.1% / 0.5% / 1.0% |
+| Mean cosine similarity, captions of the same image (1,000 images, 5,000 captions) | 0.656 |
+| Mean cosine similarity, captions of different images | 0.234 |
+| Probability that a same-image pair scores higher than a different-image pair | 0.985 |
+| Text-to-image Recall@1 / @5 / @10 among 1,000 images | 54.9% / 81.1% / 89.7% |
+| Chance level @1 / @5 / @10 | 0.1% / 0.5% / 1.0% |
 | Median rank of the correct image | 1 |
 
-Retrieval is 549× better than chance at rank 1. The misses are informative: for "A living area with a television and a table" all five top images are living rooms with TVs, but not the right one. COCO captions often fit several images equally well, so Recall@1 understates alignment. This matters for Milestone 3, where CLIP score will judge generated images. CLIP rewards matching the caption's content, not reproducing the reference photo.
+Both checks passed by a wide margin. Recall@1 is 54.9% where chance would give 0.1%, and for more than half of the captions the correct image is ranked first. Most of the misses were reasonable. For the caption "A living area with a television and a table", all five top results were living rooms with a TV, just not the one the caption was written for. Many COCO captions describe several images equally well, so Recall@1 underestimates how well the text and image embeddings line up. We will keep this in mind in Milestone 3, because CLIP score measures whether a generated image fits its caption, not whether it looks like the original COCO photo.
 
-![Cosine similarity between pooled CLIP caption embeddings. Bright diagonal blocks are captions of the same image.](../screenshots/caption_similarity.png)
+![Cosine similarity between the pooled CLIP embeddings of 40 captions. Each bright block on the diagonal is a group of captions describing the same image.](../screenshots/caption_similarity.png)
 
-![CLIP text→image retrieval: top-5 images for a caption, with the ground-truth image outlined in green.](../screenshots/retrieval_examples.png)
+![Top five images retrieved by CLIP for five captions. The correct image has a green border.](../screenshots/retrieval_examples.png)
 
-## 6. First test runs (5 prompts)
+## 5. First test runs
 
-Settings: SD v1.5, DDIM, 30 steps, guidance 7.5, 512×512, seed 0 + i, fp16 on a Tesla T4, **6.7 s per image** (with attention slicing on).
+The script `04_sample_prompts.py` generated one image for each of five prompts we wrote ourselves. We used SD v1.5 with the DDIM scheduler, 30 sampling steps, guidance scale 7.5 and seeds 0 to 4, at 512×512 in half precision. On the T4 with attention slicing turned on, each image took 6.7 seconds. The prompts start with a single subject and add more objects and attributes as they go.
 
-![The five test prompts (SD v1.5, DDIM, 30 steps, w = 7.5, seeds 0–4).](../screenshots/milestone1_samples.png)
+![The five test images (SD v1.5, DDIM, 30 steps, guidance 7.5, seeds 0 to 4).](../screenshots/milestone1_samples.png)
 
-| Prompt | Correct | Wrong / missing |
+Table 4. What each test image gets right and wrong.
+
+| Prompt | Correct | Wrong or missing |
 |---|---|---|
-| A man riding a bicycle down a city street | rider, bicycle, street, lane markings, buildings | n/a; photorealistic and coherent |
-| A plate of pasta with tomatoes and basil on a wooden table | all four objects, plausible food styling | n/a |
-| Two dogs playing with a frisbee in a grassy park | **count is right** (two dogs), park, playful pose | **frisbee missing** (object omission) |
-| A red double-decker bus parked next to a blue car | red double-decker bus | **no blue car**: the blue leaked onto a second bus's front (attribute leakage) |
-| A cat sitting on a windowsill watching the rain at sunset | cat, windowsill, raindrops on the glass | "sunset" is ignored (grey daylight); the third concept in the prompt is dropped |
+| A man riding a bicycle down a city street. | rider, bicycle, street, lane markings and buildings; looks like a real photo | nothing we could see |
+| A plate of pasta with tomatoes and basil on a wooden table. | all four items are there and the plating looks natural | nothing we could see |
+| Two dogs playing with a frisbee in a grassy park. | two dogs, as asked, playing in a park | no frisbee |
+| A red double-decker bus parked next to a blue car. | the red double-decker bus | no blue car; the blue ends up on the front of a second bus |
+| A cat sitting on a windowsill watching the rain at sunset. | cat, windowsill and raindrops on the glass | grey daylight instead of a sunset |
 
-The model handles single-subject scenes well and degrades as prompts list more objects and attributes. This is the known weakness of CLIP-conditioned diffusion with compositional prompts, and Milestone 2 will test whether higher guidance helps.
+Even with five images a pattern is visible. Prompts with a single subject work well, and quality drops as the prompt adds more objects and attributes. An object can go missing (the frisbee), a color can end up on the wrong object (the blue bus), or the last part of the prompt can be ignored (the sunset). These are known weaknesses of diffusion models conditioned on CLIP when the prompt combines several things, and in Milestone 2 we will test whether a higher guidance scale reduces them. Small faces, hands and any text inside the image are also unreliable at 512×512.
 
-### Conditioning check: our embeddings → U-Net
+### 5.1 Checking our own embeddings
 
-We encode the 5 prompts with our own `TextEncoder` and pass the 77×768 tensor to the U-Net as `prompt_embeds`, using the same seeds as above. If our encoding matches SD's, the images must be identical.
+In later milestones we will pass modified embeddings to the U-Net, so we first had to make sure our encoder produces exactly what the pipeline expects. We encoded the five prompts with our `TextEncoder`, passed the 77×768 tensors to the U-Net as `prompt_embeds`, and used the same seeds as above. If our encoding matches the pipeline's, the images have to be identical.
 
-**First run (bug):** the images differed by 47–78 / 255 on average, and three of them broke down completely (below). Our encoder passed CLIP an `attention_mask`, but SD's pipeline does not. Because CLIP's text transformer is causal, the real tokens and the pooled EOS embedding are **bit-identical** either way (we verified this). The 60+ **padding positions**, however, change, and the U-Net cross-attends to all 77. So SD v1.5 has learned to read conditioning from the padding tokens, which is a useful fact for later experiments that edit embeddings. Cached pooled embeddings and the checks in Section 5 are unaffected.
+On the first try they were not. The mean pixel difference was between 47 and 78 (out of 255) depending on the prompt, and some images fell apart completely (Figure 6). The cause was an attention mask. Our encoder passed one to CLIP, and the Stable Diffusion pipeline does not. CLIP's text transformer is causal, so the embeddings of the real tokens and the pooled embedding come out the same either way; we checked and they are bit-identical. The 60 or so padding positions after the end of the caption do change, though, and the U-Net attends to all 77 positions. So SD v1.5 has learned to take information from the padding tokens, which we will need to remember when we edit embeddings later. The pooled embeddings and the checks in Section 4 do not use these positions, so they were not affected.
 
-![Conditioning check, first run: SD's built-in prompt encoding (top) vs. our encoder with an attention mask (bottom), first 3 of the 5 prompts. Masking changes the padding tokens and degrades the images.](../screenshots/conditioning_check_masked.png)
+After we removed the mask, our tensors were exactly equal to the pipeline's own encoding (maximum absolute difference 0.0 at every position), and all five images were pixel-identical (Figure 7). We then reran scripts 01 to 04 from the start, and every result and sample image came out byte for byte the same.
 
-**After the fix** (no mask, matching SD): the 77×768 tensors from our encoder equal the pipeline's own text encoding exactly (max abs difference 0.0 at every position), and all 5 images are pixel-identical (mean abs difference 0.0 / 255). External embeddings from `TextEncoder` can therefore drive the U-Net in later milestones with no hidden change in conditioning. A full rerun of steps 01–04 also reproduced every other result and sample image byte for byte.
+![First conditioning check, with the attention mask. Top row: SD's built-in prompt encoding. Bottom row: our encoder. The first three of the five prompts are shown.](../screenshots/conditioning_check_masked.png)
 
-![Conditioning check after the fix: SD's built-in prompt encoding (top) and our encoder without the mask (bottom) give pixel-identical images.](../screenshots/conditioning_check.png)
+![Conditioning check after the fix. The images from SD's built-in prompt encoding (top) and from our encoder (bottom) are pixel-identical.](../screenshots/conditioning_check.png)
 
-## 7. Plan
+## 6. Plan
 
 | Milestone | Week | Work |
 |---|---|---|
-| 1 | 1–2 | dataset, environment, text→embedding pipeline, 5 test samples, repo (this report) |
-| 2 | 3–4 | baseline generation over COCO captions; guidance scale w ∈ {1, 3, 5, 7.5, 10, 15}; schedulers × steps {10, 25, 50} |
-| 3 | 5 | FID / IS (torchmetrics) on 1–2k images vs. COCO val references; CLIP score; sensitivity plots; text-encoder comparison |
-| 4 | 7 (Dec 13) | final report, gallery, slides and demo video |
+| 1 | 1 to 2 | dataset, environment, text-to-embedding pipeline, five test images, repository (this report) |
+| 2 | 3 to 4 | baseline images for COCO captions; guidance scale 1, 3, 5, 7.5, 10 and 15; six schedulers at 10, 25 and 50 steps |
+| 3 | 5 | FID and IS (torchmetrics) on 1,000 to 2,000 images against COCO val; CLIP score; sensitivity plots; CLIP vs. BERT text encoder |
+| 4 | 7 (Dec 13) | final report, image gallery, slides and demo video |
 
-Extensions if time allows: GPT-style text embeddings, style control through extra conditioning, a web demo.
+If time allows, we would also like to try text embeddings from a GPT-style model, add style control through extra conditioning, and build a small web demo.
 
-## 8. Roles
+## 7. Roles
 
 | Member | Responsibilities |
 |---|---|
-| Anshuman Singh | model integration, diffusion image generation, repository management |
+| Anshuman Singh | model integration, image generation with the diffusion model, repository |
 | Rohan Prakash Krishna Prakash | dataset collection, cleaning, preprocessing and validation |
-| Sree Ramya Pasala | CLIP embedding pipeline, evaluation, visualizations, technical documentation |
+| Sree Ramya Pasala | CLIP embedding pipeline, evaluation, visualizations, documentation |
 
-## 9. Ethical considerations (planned)
+## 8. Ethical considerations
 
-COCO's demographic and geographic skew; social stereotypes inherited from SD's LAION training data; misuse (deepfakes, non-consensual imagery); and copyright and artist-style imitation. The safety checker is disabled for benign COCO prompts (false positives black out images and bias FID) and enabled for any public demo.
+We will discuss four concerns in more depth in the final report. COCO's photos come mostly from certain countries and groups of people, so the dataset is a narrow picture of what everyday scenes look like. Stable Diffusion was trained on LAION data collected from the web and repeats social stereotypes found there. Models like ours can be misused to create deepfakes and non-consensual images. And there are open copyright questions, especially when a model imitates the style of a living artist. For our experiments we turn off SD's safety checker, because on harmless COCO prompts it sometimes flags images by mistake and replaces them with black squares, which would also distort FID. Any public demo we build would keep the checker on.

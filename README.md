@@ -1,6 +1,6 @@
 # Generative Deep Learning Project: From Words to Worlds
 
-**IE 7615 · Northeastern University · Fall 2026 · Group 1**
+**IE 7615, Northeastern University, Fall 2026, Group 1**
 
 Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a latent diffusion model (Stable Diffusion v1.5). We study noise schedulers, sampling steps, classifier-free guidance and text-encoder choice, and evaluate with FID, Inception Score and CLIP score on COCO Captions.
 
@@ -16,7 +16,7 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 
 | Milestone | Task | Status | Report |
 |---|---|---|---|
-| [Milestone 1](milestone1/) | Dataset, text→embedding pipeline, first samples | Done | [Report (Markdown)](milestone1/report/Milestone1_Report.md) · [Report (PDF)](milestone1/report/Milestone1_Report.pdf) · [One-page proposal (PDF)](milestone1/report/Milestone1_Proposal.pdf) · [Submission (proposal + report, PDF)](milestone1/report/Milestone1_Submission.pdf) |
+| [Milestone 1](milestone1/) | Dataset, text→embedding pipeline, first samples | Done | [Report (Markdown)](milestone1/report/Milestone1_Report.md), [Report (PDF)](milestone1/report/Milestone1_Report.pdf), [One-page proposal (PDF)](milestone1/report/Milestone1_Proposal.pdf), [Submission (proposal + report, PDF)](milestone1/report/Milestone1_Submission.pdf) |
 | [Milestone 2](milestone2/) | Baseline generation, guidance and scheduler tuning | Code ready, Colab run pending | |
 | Milestone 3 | FID / IS / CLIP evaluation, sensitivity analysis | Planned | |
 | Milestone 4 | Final report, gallery, presentation (Dec 13) | Planned | |
@@ -29,7 +29,7 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 - **Image–caption pair subset:** 5,000 pairs, one caption per image picked at random with seed 42, with annotator placeholders such as "I am unable to see an image above." skipped. The manifest is [`results/pairs_manifest.csv`](milestone1/results/pairs_manifest.csv) (image_id, caption_id, file_name, caption). [`results/subset_checks.json`](milestone1/results/subset_checks.json) records 0 missing images, 0 empty captions and 0 duplicate image or caption IDs.
 - **Text encoder:** `openai/clip-vit-large-patch14`. Its per-token output (77×768) is the U-Net's cross-attention context, and the pooled output (768) is used for similarity checks. All caption embeddings are cached.
 - **Sanity checks:** same-image vs. different-image caption similarity, and CLIP text→image retrieval Recall@K.
-- **Diffusion:** `stable-diffusion-v1-5/stable-diffusion-v1-5` (🤗 Diffusers, fp16), with 6 swappable schedulers and classifier-free guidance. Five test prompts run with fixed seeds. A check confirms that embeddings from our own encoder condition the U-Net the same way as the built-in prompt path.
+- **Diffusion:** `stable-diffusion-v1-5/stable-diffusion-v1-5` (Hugging Face Diffusers, fp16), with 6 swappable schedulers and classifier-free guidance. Five test prompts run with fixed seeds. A check confirms that embeddings from our own encoder condition the U-Net the same way as the built-in prompt path.
 
 Pipeline: `text prompt → CLIP tokenizer → CLIP text encoder → 77×768 embeddings → U-Net + DDIM scheduler (classifier-free guidance) → VAE decoder → 512×512 image`
 

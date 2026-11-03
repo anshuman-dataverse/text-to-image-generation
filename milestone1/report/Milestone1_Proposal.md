@@ -1,46 +1,44 @@
 # From Words to Worlds: Text-to-Image Generation with Transformers and Diffusion
 
-**IE 7615 · Northeastern University · Fall 2026 · Group 1 · Milestone 1 Proposal**\
+**Milestone 1 Proposal, IE 7615 (Fall 2026), Northeastern University, Group 1**\
 GitHub: <https://github.com/anshuman-dataverse/text-to-image-generation>
 
 ## 1. Objective
 
-Build a text-to-image pipeline in which a Transformer text encoder conditions a pre-trained latent diffusion model, then measure how the conditioning choices (classifier-free guidance scale, noise scheduler, number of sampling steps, text encoder) trade off image fidelity, diversity and prompt alignment. We evaluate quantitatively (FID, Inception Score, CLIP score) and qualitatively, and discuss bias and misuse risks.
+We will build a text-to-image pipeline in which a Transformer text encoder conditions a pre-trained latent diffusion model, and then study how the conditioning settings change the results. The settings we plan to vary are the classifier-free guidance scale, the noise scheduler, the number of sampling steps and the text encoder. We will measure image quality with FID and Inception Score and prompt alignment with CLIP score, compare images by eye, and discuss dataset bias and misuse.
 
 ## 2. Dataset
 
-**MS COCO Captions 2017, validation split.** We use 5,000 natural photos of everyday multi-object scenes (80 categories). They are the standard reference set for text-to-image FID.
+We use the validation split of MS COCO Captions 2017: 5,000 photos of everyday scenes (80 object categories), each with about five human-written captions. It is the usual reference set for text-to-image FID, and its multi-object scenes test whether the model follows the whole prompt.
 
-- **Working subset: 5,000 image–caption pairs**, one caption per image picked at random with seed 42 (`results/pairs_manifest.csv` lists image ID, caption ID and caption). The full pool of 25,000 cleaned captions (about 5 per image) is kept for the embedding checks.
-- **Cleaning:** whitespace and punctuation normalized, captions under 3 words and duplicates removed (25,014 → 25,000), and annotator placeholder captions excluded from the pairs. Verified: 0 missing images, 0 empty captions, 0 duplicate IDs.
-- **Preprocessing:** shorter side resized to 512, center-cropped to 512×512 and normalized to [−1, 1]. Captions use CLIP BPE tokens padded to 77 (max 58, none truncated).
+- Working subset: 5,000 image-caption pairs, using one caption per image picked at random (seed 42). The list is in `results/pairs_manifest.csv`. All 25,000 cleaned captions are kept for the embedding checks.
+- Cleaning: we normalized whitespace and punctuation, removed captions shorter than three words and exact duplicates (25,014 down to 25,000), and skipped annotator placeholder captions when choosing pairs. No image is missing and no caption is empty or repeated.
+- Preprocessing: images are resized so the shorter side is 512, center-cropped to 512×512 and scaled to [-1, 1]. Captions are tokenized with CLIP's tokenizer and padded to 77 tokens. The longest caption has 58 tokens, so none are truncated.
 
-## 3. Model architecture
+## 3. Model
 
 | Component | Model | Role |
 |---|---|---|
-| Text encoder | CLIP ViT-L/14 text transformer (123M) | caption → 77×768 token embeddings |
-| Denoiser | Stable Diffusion v1.5 U-Net (860M) | predicts noise, cross-attending to the text embeddings |
-| Autoencoder | SD v1.5 VAE | 512×512 image ↔ 64×64×4 latent |
-| Sampling | DDIM, DDPM, PNDM, Euler, Euler-A, DPM-Solver++ + classifier-free guidance | reverse diffusion |
+| Text encoder | CLIP ViT-L/14 text encoder (123M) | turns a caption into 77×768 token embeddings |
+| Denoiser | SD v1.5 U-Net (860M) | predicts the noise, attending to the text embeddings |
+| Autoencoder | SD v1.5 VAE | maps a 512×512 image to a 64×64×4 latent and back |
+| Sampler | DDIM, DDPM, PNDM, Euler, Euler-a, DPM++ | reverse diffusion with classifier-free guidance |
 
-Pipeline: *text prompt → CLIP tokenizer → text encoder → embeddings → U-Net + scheduler → VAE decoder → image.*
+## 4. Plan
 
-## 4. Methodology
-
-1. **Milestone 1 (done):** prepare data, set up the environment (PyTorch, 🤗 Diffusers, Colab T4), build the text→embedding pipeline and check it. Same-image caption similarity is 0.656 vs. 0.234 for different images, and text→image Recall@1/5/10 is 54.9 / 81.1 / 89.7% among 1,000 images. We ran 5 seeded test prompts, and our own embeddings drive the U-Net identically to SD's built-in encoder.
-2. **Milestone 2:** baseline generation over COCO captions; sweep guidance scale w ∈ {1, 3, 5, 7.5, 10, 15} and schedulers × steps {10, 25, 50}.
-3. **Milestone 3:** FID and IS (torchmetrics) on 1–2k generated images against COCO references, plus CLIP score, sensitivity plots and a text-encoder comparison (CLIP vs. BERT).
-4. **Milestone 4:** final analysis of fidelity vs. diversity, failure modes (object omission, attribute leakage) and ethics.
+1. Milestone 1 (done): data preparation, environment (PyTorch, Diffusers and Transformers on a Colab T4), and the text-to-embedding pipeline with sanity checks. Captions of the same image are much closer than captions of different images (cosine 0.656 vs. 0.234), and CLIP finds the right image among 1,000 with Recall@1/5/10 of 54.9/81.1/89.7%. Five test images were generated, and our own embeddings reproduce SD's built-in prompt encoding exactly.
+2. Milestone 2: baseline images for COCO captions, then sweeps over the guidance scale (1, 3, 5, 7.5, 10, 15) and over the six schedulers at 10, 25 and 50 steps.
+3. Milestone 3: FID and IS (torchmetrics) on 1,000 to 2,000 generated images against COCO, CLIP score, sensitivity plots, and a comparison of CLIP and BERT as the text encoder.
+4. Milestone 4: final analysis of fidelity against diversity, typical failures such as missing objects and colors on the wrong object, and ethics.
 
 ## 5. Team and responsibilities
 
 | Member | Responsibilities |
 |---|---|
-| Anshuman Singh (002590892) | model integration, diffusion image generation, repository management |
+| Anshuman Singh (002590892) | model integration, image generation, repository |
 | Rohan Prakash Krishna Prakash (002317798) | dataset collection, cleaning, preprocessing and validation |
-| Sree Ramya Pasala (002301508) | CLIP embedding pipeline, evaluation, visualizations, technical documentation |
+| Sree Ramya Pasala (002301508) | CLIP embedding pipeline, evaluation, visualizations, documentation |
 
 ## 6. Expected deliverables
 
-Reproducible code and Colab notebook; cleaned 5,000-pair COCO subset manifest; generated image galleries for each configuration; FID / IS / CLIP-score tables and sensitivity plots; milestone reports, final report, slides and demo video (Dec 13).
+Reproducible code and Colab notebooks, the 5,000-pair manifest, image galleries, FID, IS and CLIP score tables and plots, milestone reports, and the final report, slides and demo video (December 13).
