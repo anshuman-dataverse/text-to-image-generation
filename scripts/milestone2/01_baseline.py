@@ -97,6 +97,13 @@ def main():
     else:
         plots.captioned_grid([jobs[i]["path"] for i in pick], [prompts[i]["caption"] for i in pick],
                              shots / "baseline_gallery.png", "Baseline samples (DDIM, 30 steps, w = 7.5)")
+    # early samples for the report: the first 8 prompts of the fixed order, never cherry-picked
+    plots.captioned_grid([jobs[i]["path"] for i in pick], [f"({i + 1}) {prompts[i]['caption']}" for i in pick],
+                         shots / "baseline_samples.png",
+                         "Early samples: SD v1.5, DDIM, 30 steps, w = 7.5, seed = prompt index")
+    m2.write_csv([{"n": i + 1, "seed": jobs[i]["seed"], "clip_score": round(float(gen[i]), 2),
+                   "prompt": prompts[i]["caption"], "file": jobs[i]["path"].name} for i in pick],
+                 res / "early_samples.csv")
     order = np.argsort(gen)
     ext = list(order[:4]) + list(order[-4:])
     plots.captioned_grid([jobs[i]["path"] for i in ext],

@@ -56,9 +56,11 @@ def load_pipeline(model_id: str = "stable-diffusion-v1-5/stable-diffusion-v1-5",
     return pipe
 
 
-def set_scheduler(pipe: StableDiffusionPipeline, name: str) -> None:
-    """Swap the noise scheduler, keeping the model's trained beta schedule."""
-    pipe.scheduler = SCHEDULERS[name].from_config(pipe.scheduler.config)
+def set_scheduler(pipe: StableDiffusionPipeline, name: str, base_config=None, **overrides) -> None:
+    """Swap the noise scheduler, keeping the model's trained beta schedule. `overrides` change
+    how the inference noise schedule is laid out (e.g. timestep_spacing="trailing",
+    use_karras_sigmas=True); pass `base_config` so earlier overrides do not carry over."""
+    pipe.scheduler = SCHEDULERS[name].from_config(base_config or pipe.scheduler.config, **overrides)
 
 
 @torch.no_grad()

@@ -142,6 +142,50 @@ def scheduler_heatmaps(summary: list[dict], schedulers: list[str], steps: list[i
     plt.close(fig)
 
 
+def noise_schedule_sigmas(sigmas: dict, out: Path):
+    """Noise level sigma at each sampling step, one panel per step count, log scale."""
+    steps = sorted({n for d in sigmas.values() for n in d})
+    fig, axes = plt.subplots(1, len(steps), figsize=(5.2 * len(steps), 3.6), squeeze=False)
+    for ax, n in zip(axes[0], steps):
+        for name, d in sigmas.items():
+            if n in d:
+                ax.plot(range(1, len(d[n]) + 1), d[n], marker="o", ms=3, label=name)
+        ax.set_yscale("log")
+        ax.set(xlabel="sampling step", ylabel="σ (noise level)", title=f"{n} steps")
+        ax.grid(alpha=0.3, which="both")
+        ax.legend(fontsize=8)
+    fig.suptitle("Noise levels visited by each inference schedule (Euler, SD v1.5 betas)", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(out, dpi=120, bbox_inches="tight")
+    plt.close(fig)
+
+
+def noise_schedule_metrics(summary: list[dict], schedules: list[str], steps: list[int], out: Path):
+    """Grouped bars: CLIP score and distance to the 50-step reference, per schedule and steps."""
+    panels = [("clip_score", "CLIP score (↑)", "clip_score_ci95"),
+              ("pixel_diff_to_ref", "mean |Δpixel| vs. 50-step leading image (↓)", None)]
+    fig, axes = plt.subplots(1, 2, figsize=(11, 3.6))
+    width = 0.8 / len(steps)
+    x = np.arange(len(schedules))
+    for ax, (k, label, err) in zip(axes, panels):
+        for i, n in enumerate(steps):
+            vals = {s["schedule"]: s for s in summary if s["steps"] == n}
+            y = [vals[s][k] if s in vals and vals[s].get(k) is not None else np.nan for s in schedules]
+            e = [vals[s][err] if err and s in vals else 0 for s in schedules]
+            ax.bar(x + (i - (len(steps) - 1) / 2) * width, y, width, yerr=e if err else None,
+                   capsize=3, label=f"{n} steps", color=[BLUE, ORANGE, GREEN, RED][i % 4])
+        ax.set_xticks(x, schedules)
+        ax.set_title(label)
+        ax.grid(alpha=0.3, axis="y")
+        ax.legend(fontsize=8)
+    lo = np.nanmin([s["clip_score"] - s["clip_score_ci95"] for s in summary]) if summary else 0
+    axes[0].set_ylim(max(0, lo - 2), None)
+    fig.suptitle("Noise schedule shape (Euler, guidance 7.5, mean ± 95% CI)", fontsize=11)
+    fig.tight_layout()
+    fig.savefig(out, dpi=120, bbox_inches="tight")
+    plt.close(fig)
+
+
 def scheduler_lines(summary: list[dict], schedulers: list[str], out: Path):
     fig, ax = plt.subplots(figsize=(6.5, 3.8))
     for name in schedulers:

@@ -17,7 +17,7 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 | Milestone | Task | Status | Documents |
 |---|---|---|---|
 | 1 | Dataset, text-to-embedding pipeline, first samples | Done | [Report (PDF)](docs/milestone1/Milestone1_Report.pdf), [Report (Markdown)](docs/milestone1/Milestone1_Report.md), [One-page proposal](docs/milestone1/Milestone1_Proposal.pdf), [Submission (proposal + report)](docs/milestone1/Milestone1_Submission.pdf) |
-| 2 | Baseline generation, guidance and scheduler tuning | Code ready, Colab run pending | |
+| 2 | Baseline generation, guidance, scheduler and noise-schedule tuning | Code ready, Colab run pending | |
 | 3 | FID / IS / CLIP evaluation, sensitivity analysis | Planned | |
 | 4 | Final report, gallery, presentation (Dec 13) | Planned | |
 
@@ -49,7 +49,8 @@ Text-to-image generation with a Transformer text encoder (CLIP ViT-L/14) and a l
 │   └── milestone2/
 │       ├── 01_baseline.py          baseline over COCO captions with CLIP score
 │       ├── 02_guidance_sweep.py    classifier-free guidance scale sweep
-│       └── 03_scheduler_sweep.py   scheduler x sampling steps sweep
+│       ├── 03_scheduler_sweep.py   scheduler x sampling steps sweep
+│       └── 04_noise_schedule.py    noise schedule shape (timestep / sigma spacing) sweep
 ├── src/t2i/                  shared code
 │   ├── config.py             paths and config loading
 │   ├── data.py               COCO download, caption cleaning, preprocessing, pair checks
@@ -135,16 +136,17 @@ The report PDFs are built from the Markdown with `docs/build/build_pdfs.sh` (pan
 
 ---
 
-## Milestone 2: baseline generation, guidance and scheduler sweeps
+## Milestone 2: baseline generation, guidance, scheduler and noise-schedule sweeps
 
-Three experiments on COCO captions from the Milestone 1 pair manifest. Prompt *i* uses seed *i* in every experiment, so only the varied setting changes. Every image is scored with CLIP score (ViT-L/14, 100 · max(cos, 0)) against its caption.
+Four experiments on COCO captions from the Milestone 1 pair manifest. Prompt *i* uses seed *i* in every experiment, so only the varied setting changes. Every image is scored with CLIP score (ViT-L/14, 100 · max(cos, 0)) against its caption.
 
 | Exp. | Script | Varies | Prompts × seeds | Measures |
 |---|---|---|---|---|
 | 1 | `01_baseline.py` | nothing (DDIM, 30 steps, w = 7.5) | 200 × 1 | CLIP score, vs. the real COCO photo |
 | 2 | `02_guidance_sweep.py` | w ∈ {1, 3, 5, 7.5, 10, 15} | 32 × 2 | CLIP score, seed diversity, saturation |
 | 3 | `03_scheduler_sweep.py` | DDIM, DDPM, PNDM, Euler, Euler-a, DPM++ × {10, 25, 50} steps | 24 × 1 | CLIP score, s/image, convergence to 50 steps |
+| 4 | `04_noise_schedule.py` | Euler noise schedule: leading (SD default), linspace, trailing, Karras × {10, 25} steps | 24 × 1 | CLIP score, distance to the 50-step image, σ sequence |
 
-**Run:** open [`notebooks/milestone2_colab.ipynb`](notebooks/milestone2_colab.ipynb) in Colab with a T4 GPU and *Run all* (about 1.5 to 2 hours). Generated images go to `MyDrive/IE7615_Project2/milestone2_outputs` and are skipped if already there, so a disconnected session resumes. Results, figures and logs are zipped to `MyDrive/IE7615_Project2/milestone2_outputs.zip`; unzip it at the repository root and commit.
+**Run:** open [`notebooks/milestone2_colab.ipynb`](notebooks/milestone2_colab.ipynb) in Colab with a T4 GPU and *Run all* (about 2 hours). Generated images go to `MyDrive/IE7615_Project2/milestone2_outputs` and are skipped if already there, so a disconnected session resumes. Results, figures and logs are zipped to `MyDrive/IE7615_Project2/milestone2_outputs.zip`; unzip it at the repository root and commit.
 
-Locally: `python scripts/milestone2/01_baseline.py` (and 02, 03). `--n` sets the number of prompts and `--score-only` re-scores existing images without a GPU run. Settings are in `configs/milestone2.yaml`.
+Locally: `python scripts/milestone2/01_baseline.py` (and 02, 03, 04). `--n` sets the number of prompts and `--score-only` re-scores existing images without a GPU run. Settings are in `configs/milestone2.yaml`.

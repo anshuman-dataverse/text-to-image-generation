@@ -38,3 +38,13 @@ scheduler_sweep:
   schedulers: [ddim, ddpm, pndm, euler, euler_a, dpmpp]
   steps: [10, 25, 50]
   guidance: 7.5
+
+# Experiment 4: shape of the inference noise schedule (which noise levels the sampler visits),
+# with the sampler fixed. leading = SD v1.5 default; karras = Karras et al. (2022) sigma spacing.
+noise_schedule:
+  n_prompts: 24
+  scheduler: euler
+  schedules: [leading, linspace, trailing, karras]
+  steps: [10, 25]
+  reference_steps: 50   # leading schedule at 50 steps: the "converged" image each run is compared to
+  guidance: 7.5
