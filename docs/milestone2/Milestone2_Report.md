@@ -15,7 +15,7 @@ Submitted November 20, 2026
 
 GitHub repository: <https://github.com/anshuman-dataverse/text-to-image-generation>. The Milestone 2 scripts are in `scripts/milestone2/`, the shared code in `src/t2i/experiments.py` and `src/t2i/experiment_plots.py`, the settings in `configs/milestone2.yaml`, and the results, figures and logs in `outputs/milestone2/`. File names such as `results/baseline.csv` in this report are relative to that folder. The Colab notebook is [notebooks/milestone2_colab.ipynb](../../notebooks/milestone2_colab.ipynb), and the run used for this report, with all its outputs, is [notebooks/milestone2_colab_executed.ipynb](../../notebooks/milestone2_colab_executed.ipynb).
 
-## 1. Summary
+## 1. Summary of observations
 
 In Milestone 1 we built the pipeline and generated five images from our own prompts. In this milestone we generated 1,232 images from COCO captions in four experiments: a baseline with the Milestone 1 settings on 200 captions, a sweep over the classifier-free guidance scale, six schedulers at three step counts, and four noise schedules with the sampler held fixed. Every image was scored against its caption with CLIP score.
 
