@@ -1,0 +1,498 @@
+code version: e62be8d Milestone 2: noise-schedule experiment (Euler: leading, linspace, trailing, Karras) and an 8-image early-samples figure with prompts
+/usr/local/lib/python3.13/dist-packages/diffusers/utils/deprecation_utils.py:23: FutureWarning: `torch_dtype` is deprecated and will be removed in version 1.0.0. Please use `dtype` instead.
+  deprecate("torch_dtype", "1.0.0", _TORCH_DTYPE_DEPRECATION_MESSAGE)
+
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading pipeline components...:  17%|█▋        | 1/6 [00:08<00:40,  8.13s/it]
+
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s][A
+
+Loading weights:   1%|          | 2/196 [00:00<01:24,  2.28it/s][A
+
+Loading weights:  40%|███▉      | 78/196 [00:00<00:01, 107.87it/s][A
+
+Loading weights:  62%|██████▏   | 121/196 [00:01<00:00, 114.52it/s][A
+
+Loading weights:  77%|███████▋  | 151/196 [00:01<00:00, 126.72it/s][A
+
+Loading weights:  90%|████████▉ | 176/196 [00:01<00:00, 122.03it/s][A
+
+Loading weights: 100%|██████████| 196/196 [00:01<00:00, 128.50it/s][A
+Loading weights: 100%|██████████| 196/196 [00:01<00:00, 105.32it/s]
+
+Loading pipeline components...:  50%|█████     | 3/6 [00:10<00:08,  2.92s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:11<00:00,  1.39s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:11<00:00,  1.94s/it]
+ddim 10 steps: {'generated': 0, 'skipped': 24, 'seconds_per_image': None}
+ddim 25 steps: {'generated': 0, 'skipped': 24, 'seconds_per_image': None}
+ddim 50 steps: {'generated': 0, 'skipped': 24, 'seconds_per_image': None}
+ddpm 10 steps: {'generated': 0, 'skipped': 24, 'seconds_per_image': None}
+ddpm 25 steps: {'generated': 0, 'skipped': 24, 'seconds_per_image': None}
+
+ddpm 50 steps:   0%|          | 0/2 [00:00<?, ?it/s]
+ddpm 50 steps:  50%|█████     | 1/2 [00:32<00:32, 32.96s/it]
+ddpm 50 steps: 100%|██████████| 2/2 [01:04<00:00, 31.91s/it]
+ddpm 50 steps: 100%|██████████| 2/2 [01:04<00:00, 32.07s/it]
+ddpm 50 steps: {'generated': 8, 'skipped': 16, 'seconds_per_image': 7.86}
+
+pndm 10 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+pndm 10 steps:  17%|█▋        | 1/6 [00:07<00:39,  7.92s/it]
+pndm 10 steps:  33%|███▎      | 2/6 [00:15<00:31,  7.86s/it]
+pndm 10 steps:  50%|█████     | 3/6 [00:23<00:23,  7.94s/it]
+pndm 10 steps:  67%|██████▋   | 4/6 [00:31<00:16,  8.05s/it]
+pndm 10 steps:  83%|████████▎ | 5/6 [00:40<00:08,  8.21s/it]
+pndm 10 steps: 100%|██████████| 6/6 [00:48<00:00,  8.27s/it]
+pndm 10 steps: 100%|██████████| 6/6 [00:48<00:00,  8.15s/it]
+pndm 10 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 1.925}
+
+pndm 25 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+pndm 25 steps:  17%|█▋        | 1/6 [00:17<01:27, 17.42s/it]
+pndm 25 steps:  33%|███▎      | 2/6 [00:34<01:08, 17.24s/it]
+pndm 25 steps:  50%|█████     | 3/6 [00:51<00:51, 17.06s/it]
+pndm 25 steps:  67%|██████▋   | 4/6 [01:08<00:34, 17.01s/it]
+pndm 25 steps:  83%|████████▎ | 5/6 [01:25<00:17, 17.04s/it]
+pndm 25 steps: 100%|██████████| 6/6 [01:42<00:00, 17.08s/it]
+pndm 25 steps: 100%|██████████| 6/6 [01:42<00:00, 17.09s/it]
+pndm 25 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 4.146}
+
+pndm 50 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+pndm 50 steps:  17%|█▋        | 1/6 [00:31<02:38, 31.74s/it]
+pndm 50 steps:  33%|███▎      | 2/6 [01:03<02:06, 31.69s/it]
+pndm 50 steps:  50%|█████     | 3/6 [01:35<01:35, 31.68s/it]
+pndm 50 steps:  67%|██████▋   | 4/6 [02:06<01:03, 31.78s/it]
+pndm 50 steps:  83%|████████▎ | 5/6 [02:38<00:31, 31.74s/it]
+pndm 50 steps: 100%|██████████| 6/6 [03:10<00:00, 31.69s/it]
+pndm 50 steps: 100%|██████████| 6/6 [03:10<00:00, 31.71s/it]
+pndm 50 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 7.809}
+
+euler 10 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler 10 steps:  17%|█▋        | 1/6 [00:07<00:38,  7.72s/it]
+euler 10 steps:  33%|███▎      | 2/6 [00:15<00:30,  7.67s/it]
+euler 10 steps:  50%|█████     | 3/6 [00:23<00:23,  7.67s/it]
+euler 10 steps:  67%|██████▋   | 4/6 [00:30<00:15,  7.66s/it]
+euler 10 steps:  83%|████████▎ | 5/6 [00:38<00:07,  7.64s/it]
+euler 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.63s/it]
+euler 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.65s/it]
+euler 10 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 1.783}
+
+euler 25 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler 25 steps:  17%|█▋        | 1/6 [00:16<01:23, 16.65s/it]
+euler 25 steps:  33%|███▎      | 2/6 [00:33<01:06, 16.59s/it]
+euler 25 steps:  50%|█████     | 3/6 [00:49<00:49, 16.49s/it]
+euler 25 steps:  67%|██████▋   | 4/6 [01:06<00:32, 16.47s/it]
+euler 25 steps:  83%|████████▎ | 5/6 [01:22<00:16, 16.46s/it]
+euler 25 steps: 100%|██████████| 6/6 [01:38<00:00, 16.44s/it]
+euler 25 steps: 100%|██████████| 6/6 [01:38<00:00, 16.47s/it]
+euler 25 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 3.996}
+
+euler 50 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler 50 steps:  17%|█▋        | 1/6 [00:31<02:36, 31.37s/it]
+euler 50 steps:  33%|███▎      | 2/6 [01:02<02:04, 31.18s/it]
+euler 50 steps:  50%|█████     | 3/6 [01:33<01:33, 31.10s/it]
+euler 50 steps:  67%|██████▋   | 4/6 [02:04<01:02, 31.06s/it]
+euler 50 steps:  83%|████████▎ | 5/6 [02:35<00:31, 31.03s/it]
+euler 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.05s/it]
+euler 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.08s/it]
+euler 50 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 7.652}
+
+euler_a 10 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler_a 10 steps:  17%|█▋        | 1/6 [00:07<00:38,  7.65s/it]
+euler_a 10 steps:  33%|███▎      | 2/6 [00:15<00:30,  7.71s/it]
+euler_a 10 steps:  50%|█████     | 3/6 [00:23<00:23,  7.67s/it]
+euler_a 10 steps:  67%|██████▋   | 4/6 [00:30<00:15,  7.68s/it]
+euler_a 10 steps:  83%|████████▎ | 5/6 [00:38<00:07,  7.66s/it]
+euler_a 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.63s/it]
+euler_a 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.65s/it]
+euler_a 10 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 1.785}
+
+euler_a 25 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler_a 25 steps:  17%|█▋        | 1/6 [00:16<01:22, 16.47s/it]
+euler_a 25 steps:  33%|███▎      | 2/6 [00:33<01:06, 16.51s/it]
+euler_a 25 steps:  50%|█████     | 3/6 [00:49<00:49, 16.44s/it]
+euler_a 25 steps:  67%|██████▋   | 4/6 [01:05<00:32, 16.48s/it]
+euler_a 25 steps:  83%|████████▎ | 5/6 [01:22<00:16, 16.53s/it]
+euler_a 25 steps: 100%|██████████| 6/6 [01:39<00:00, 16.51s/it]
+euler_a 25 steps: 100%|██████████| 6/6 [01:39<00:00, 16.50s/it]
+euler_a 25 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 3.996}
+
+euler_a 50 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+euler_a 50 steps:  17%|█▋        | 1/6 [00:31<02:35, 31.12s/it]
+euler_a 50 steps:  33%|███▎      | 2/6 [01:02<02:04, 31.13s/it]
+euler_a 50 steps:  50%|█████     | 3/6 [01:33<01:33, 31.19s/it]
+euler_a 50 steps:  67%|██████▋   | 4/6 [02:04<01:02, 31.15s/it]
+euler_a 50 steps:  83%|████████▎ | 5/6 [02:35<00:31, 31.14s/it]
+euler_a 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.15s/it]
+euler_a 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.15s/it]
+euler_a 50 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 7.668}
+
+dpmpp 10 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+dpmpp 10 steps:  17%|█▋        | 1/6 [00:07<00:38,  7.69s/it]
+dpmpp 10 steps:  33%|███▎      | 2/6 [00:15<00:30,  7.65s/it]
+dpmpp 10 steps:  50%|█████     | 3/6 [00:22<00:22,  7.62s/it]
+dpmpp 10 steps:  67%|██████▋   | 4/6 [00:30<00:15,  7.60s/it]
+dpmpp 10 steps:  83%|████████▎ | 5/6 [00:38<00:07,  7.61s/it]
+dpmpp 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.60s/it]
+dpmpp 10 steps: 100%|██████████| 6/6 [00:45<00:00,  7.61s/it]
+dpmpp 10 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 1.786}
+
+dpmpp 25 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+dpmpp 25 steps:  17%|█▋        | 1/6 [00:16<01:22, 16.59s/it]
+dpmpp 25 steps:  33%|███▎      | 2/6 [00:33<01:05, 16.50s/it]
+dpmpp 25 steps:  50%|█████     | 3/6 [00:49<00:49, 16.45s/it]
+dpmpp 25 steps:  67%|██████▋   | 4/6 [01:05<00:32, 16.44s/it]
+dpmpp 25 steps:  83%|████████▎ | 5/6 [01:22<00:16, 16.45s/it]
+dpmpp 25 steps: 100%|██████████| 6/6 [01:38<00:00, 16.43s/it]
+dpmpp 25 steps: 100%|██████████| 6/6 [01:38<00:00, 16.45s/it]
+dpmpp 25 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 3.996}
+
+dpmpp 50 steps:   0%|          | 0/6 [00:00<?, ?it/s]
+dpmpp 50 steps:  17%|█▋        | 1/6 [00:31<02:36, 31.35s/it]
+dpmpp 50 steps:  33%|███▎      | 2/6 [01:02<02:04, 31.16s/it]
+dpmpp 50 steps:  50%|█████     | 3/6 [01:33<01:33, 31.09s/it]
+dpmpp 50 steps:  67%|██████▋   | 4/6 [02:04<01:02, 31.05s/it]
+dpmpp 50 steps:  83%|████████▎ | 5/6 [02:35<00:31, 31.04s/it]
+dpmpp 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.10s/it]
+dpmpp 50 steps: 100%|██████████| 6/6 [03:06<00:00, 31.10s/it]
+dpmpp 50 steps: {'generated': 24, 'skipped': 0, 'seconds_per_image': 7.655}
+
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]
+Loading weights:   1%|          | 3/590 [00:01<03:34,  2.74it/s]
+Loading weights:  16%|█▌        | 95/590 [00:01<00:04, 108.30it/s]
+Loading weights:  25%|██▌       | 148/590 [00:01<00:03, 117.35it/s]
+Loading weights:  31%|███       | 183/590 [00:01<00:03, 127.43it/s]
+Loading weights:  36%|███▌      | 211/590 [00:02<00:03, 120.84it/s]
+Loading weights:  39%|███▉      | 233/590 [00:02<00:03, 116.74it/s]
+Loading weights:  43%|████▎     | 251/590 [00:02<00:02, 116.76it/s]
+Loading weights:  50%|█████     | 295/590 [00:02<00:01, 162.05it/s]
+Loading weights:  57%|█████▋    | 335/590 [00:02<00:01, 202.90it/s]
+Loading weights:  61%|██████▏   | 362/590 [00:02<00:01, 169.41it/s]
+Loading weights:  65%|██████▌   | 385/590 [00:03<00:01, 130.94it/s]
+Loading weights:  68%|██████▊   | 403/590 [00:03<00:01, 121.27it/s]
+Loading weights:  71%|███████   | 419/590 [00:03<00:01, 110.97it/s]
+Loading weights:  73%|███████▎  | 433/590 [00:03<00:01, 104.30it/s]
+Loading weights:  76%|███████▌  | 447/590 [00:03<00:01, 99.35it/s] 
+Loading weights:  78%|███████▊  | 463/590 [00:04<00:01, 94.12it/s]
+Loading weights:  81%|████████  | 479/590 [00:04<00:01, 89.24it/s]
+Loading weights:  84%|████████▍ | 495/590 [00:04<00:01, 85.81it/s]
+Loading weights:  87%|████████▋ | 511/590 [00:04<00:00, 84.19it/s]
+Loading weights:  89%|████████▉ | 527/590 [00:04<00:00, 84.23it/s]
+Loading weights:  92%|█████████▏| 543/590 [00:05<00:00, 83.08it/s]
+Loading weights:  95%|█████████▍| 559/590 [00:05<00:00, 82.07it/s]
+Loading weights:  97%|█████████▋| 575/590 [00:05<00:00, 81.74it/s]
+Loading weights: 100%|██████████| 590/590 [00:05<00:00, 104.97it/s]
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:10<00:00, 10.14s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:09<00:00,  9.27s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:08<00:00,  8.86s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:08<00:00,  8.79s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:09<00:00,  9.35s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:05<00:00,  5.82s/it]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.52it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.61it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.54it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.60it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.57it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.31it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.30it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.25it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.24it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.30it/s]
+                                                          
+
+clip images:   0%|          | 0/1 [00:00<?, ?it/s]
+clip images: 100%|██████████| 1/1 [00:00<00:00,  1.62it/s]
+                                                          
+{
+  "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "guidance": 7.5,
+  "prompts": 24,
+  "gpu": "Tesla T4",
+  "batch_size": 4,
+  "reference_steps": 50,
+  "per_config": [
+    {
+      "scheduler": "ddim",
+      "steps": 10,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.917,
+      "clip_score_ci95": 1.4,
+      "saturation": 0.3245,
+      "seconds_per_image": 1.786,
+      "pixel_diff_to_50": 33.06,
+      "clip_img_sim_to_50": 0.8768,
+      "pixel_diff_to_ddim50": 33.06
+    },
+    {
+      "scheduler": "ddim",
+      "steps": 25,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.834,
+      "clip_score_ci95": 1.479,
+      "saturation": 0.3553,
+      "seconds_per_image": 3.62,
+      "pixel_diff_to_50": 16.12,
+      "clip_img_sim_to_50": 0.9468,
+      "pixel_diff_to_ddim50": 16.12
+    },
+    {
+      "scheduler": "ddim",
+      "steps": 50,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.553,
+      "clip_score_ci95": 1.45,
+      "saturation": 0.3656,
+      "seconds_per_image": 7.309,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": null
+    },
+    {
+      "scheduler": "ddpm",
+      "steps": 10,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 26.777,
+      "clip_score_ci95": 1.271,
+      "saturation": 0.3601,
+      "seconds_per_image": 1.7,
+      "pixel_diff_to_50": 52.44,
+      "clip_img_sim_to_50": 0.8452,
+      "pixel_diff_to_ddim50": 50.15
+    },
+    {
+      "scheduler": "ddpm",
+      "steps": 25,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 27.44,
+      "clip_score_ci95": 1.194,
+      "saturation": 0.3909,
+      "seconds_per_image": 3.809,
+      "pixel_diff_to_50": 40.79,
+      "clip_img_sim_to_50": 0.8928,
+      "pixel_diff_to_ddim50": 55.88
+    },
+    {
+      "scheduler": "ddpm",
+      "steps": 50,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 26.592,
+      "clip_score_ci95": 1.214,
+      "saturation": 0.4167,
+      "seconds_per_image": 7.86,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": 60.22
+    },
+    {
+      "scheduler": "pndm",
+      "steps": 10,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 25.789,
+      "clip_score_ci95": 1.45,
+      "saturation": 0.3376,
+      "seconds_per_image": 1.925,
+      "pixel_diff_to_50": 39.44,
+      "clip_img_sim_to_50": 0.8204,
+      "pixel_diff_to_ddim50": 37.21
+    },
+    {
+      "scheduler": "pndm",
+      "steps": 25,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.98,
+      "clip_score_ci95": 1.527,
+      "saturation": 0.3702,
+      "seconds_per_image": 4.146,
+      "pixel_diff_to_50": 18.04,
+      "clip_img_sim_to_50": 0.9444,
+      "pixel_diff_to_ddim50": 19.05
+    },
+    {
+      "scheduler": "pndm",
+      "steps": 50,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.859,
+      "clip_score_ci95": 1.512,
+      "saturation": 0.3733,
+      "seconds_per_image": 7.809,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": 16.09
+    },
+    {
+      "scheduler": "euler",
+      "steps": 10,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.6,
+      "clip_score_ci95": 1.312,
+      "saturation": 0.3909,
+      "seconds_per_image": 1.783,
+      "pixel_diff_to_50": 25.44,
+      "clip_img_sim_to_50": 0.9023,
+      "pixel_diff_to_ddim50": 26.16
+    },
+    {
+      "scheduler": "euler",
+      "steps": 25,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 27.246,
+      "clip_score_ci95": 1.504,
+      "saturation": 0.3814,
+      "seconds_per_image": 3.996,
+      "pixel_diff_to_50": 10.99,
+      "clip_img_sim_to_50": 0.9631,
+      "pixel_diff_to_ddim50": 17.99
+    },
+    {
+      "scheduler": "euler",
+      "steps": 50,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.951,
+      "clip_score_ci95": 1.681,
+      "saturation": 0.3798,
+      "seconds_per_image": 7.652,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": 16.14
+    },
+    {
+      "scheduler": "euler_a",
+      "steps": 10,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 27.118,
+      "clip_score_ci95": 1.295,
+      "saturation": 0.4311,
+      "seconds_per_image": 1.785,
+      "pixel_diff_to_50": 50.57,
+      "clip_img_sim_to_50": 0.8577,
+      "pixel_diff_to_ddim50": 55.04
+    },
+    {
+      "scheduler": "euler_a",
+      "steps": 25,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 26.501,
+      "clip_score_ci95": 1.214,
+      "saturation": 0.4101,
+      "seconds_per_image": 3.996,
+      "pixel_diff_to_50": 39.11,
+      "clip_img_sim_to_50": 0.9113,
+      "pixel_diff_to_ddim50": 58.78
+    },
+    {
+      "scheduler": "euler_a",
+      "steps": 50,
+      "stochastic": true,
+      "images": 24,
+      "clip_score": 26.871,
+      "clip_score_ci95": 1.157,
+      "saturation": 0.4405,
+      "seconds_per_image": 7.668,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": 61.72
+    },
+    {
+      "scheduler": "dpmpp",
+      "steps": 10,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.832,
+      "clip_score_ci95": 1.359,
+      "saturation": 0.3819,
+      "seconds_per_image": 1.786,
+      "pixel_diff_to_50": 25.61,
+      "clip_img_sim_to_50": 0.9074,
+      "pixel_diff_to_ddim50": 24.42
+    },
+    {
+      "scheduler": "dpmpp",
+      "steps": 25,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.722,
+      "clip_score_ci95": 1.588,
+      "saturation": 0.378,
+      "seconds_per_image": 3.996,
+      "pixel_diff_to_50": 11.89,
+      "clip_img_sim_to_50": 0.9629,
+      "pixel_diff_to_ddim50": 18.78
+    },
+    {
+      "scheduler": "dpmpp",
+      "steps": 50,
+      "stochastic": false,
+      "images": 24,
+      "clip_score": 26.859,
+      "clip_score_ci95": 1.524,
+      "saturation": 0.3794,
+      "seconds_per_image": 7.655,
+      "pixel_diff_to_50": 0.0,
+      "clip_img_sim_to_50": 1.0,
+      "pixel_diff_to_ddim50": 18.82
+    }
+  ]
+}

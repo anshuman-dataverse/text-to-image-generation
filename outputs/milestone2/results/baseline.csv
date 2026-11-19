@@ -1,0 +1,201 @@
+idx,image_id,seed,caption,file,clip_score,clip_score_real,saturation,clipped
+0,177489,0,A man and a woman sitting inside eating salad.,0000_177489.png,28.604,31.027,0.3661,0.0218
+1,139260,1,A banana split with spoons in a glass bowl.,0001_139260.png,25.393,31.808,0.1994,0.0102
+2,390555,2,A bunch of kids standing together for a school picture.,0002_390555.png,23.604,25.222,0.3269,0.0008
+3,445602,3,A man is at the bottom a ski slope.,0003_445602.png,23.194,21.78,0.0315,0.0001
+4,75393,4,A display case of three different wooden combs.,0004_75393.png,34.08,28.87,0.4641,0.006
+5,8844,5,A middle aged black woman is standing behind a table full of bananas.,0005_8844.png,30.224,24.234,0.5093,0.0112
+6,328117,6,A metal tray filled with fried donuts and metal tongs.,0006_328117.png,29.172,23.492,0.4969,0.0988
+7,449579,7,Woman in red shirt holding up a tennis racket on a court.,0007_449579.png,25.039,29.408,0.4584,0.0618
+8,256407,8,Ornate cup and saucer clock displayed against red background.,0008_256407.png,31.755,25.794,0.7412,0.0511
+9,250766,9,A plate with salad and a cut of meat and silverware laid on top.,0009_250766.png,22.765,26.294,0.3852,0.022
+10,435880,10,A fridge with a lot of magnets in a kitchen.,0010_435880.png,23.224,24.727,0.2324,0.0066
+11,410934,11,Several green leaves grouped together as a plant.,0011_410934.png,21.212,25.297,0.4576,0.0007
+12,110449,12,"Two men are sitting near a table, one playing with a video game.",0012_110449.png,26.5,20.284,0.3972,0.001
+13,489924,13,A girl is skate boarding on a short skateboard.,0013_489924.png,32.702,26.965,0.1657,0.0014
+14,84431,14,A slice of pizza sitting on top of a white plate.,0014_84431.png,26.121,25.272,0.4256,0.0759
+15,155443,15,A train traveling down the rail road tracks.,0015_155443.png,21.7,16.493,0.4023,0.0124
+16,51598,16,"The bathroom has a wall sink, medicine cabinet, toothbrush holder, and bare walls.",0016_51598.png,25.32,29.176,0.2018,0.0001
+17,447314,17,A lady and a little girl flying a kite on a grassy field.,0017_447314.png,31.343,26.64,0.4839,0.0009
+18,291490,18,A cat peeking it's head out of the blankets.,0018_291490.png,26.094,22.91,0.243,0.0057
+19,569700,19,A vase sitting next to a mirror filled with flowers.,0019_569700.png,27.868,23.262,0.2925,0.0046
+20,338304,20,A bunch of sheep make their way through the crowded city street.,0020_338304.png,28.972,26.841,0.2632,0.0055
+21,353051,21,A woman with green hair standing beside a brow and white horse.,0021_353051.png,33.338,30.926,0.2944,0.0001
+22,552842,22,A baseball pitcher throws a baseball from a pitcher's mound.,0022_552842.png,23.997,26.616,0.2584,0.0034
+23,462576,23,Two plates of breakfast food and a glass of juice.,0023_462576.png,23.248,24.387,0.4237,0.006
+24,78404,24,Three women sitting on a park bench next to each other.,0024_78404.png,24.68,31.196,0.513,0.0037
+25,309467,25,Two people cross country skiing on a snow covered hill.,0025_309467.png,26.583,27.109,0.1748,0.0022
+26,144798,26,A cup sits on the edge of a white tub in a bathroom.,0026_144798.png,24.924,25.0,0.0454,0.0013
+27,359540,27,A spirited game of baseball takes place behind a chain link fence.,0027_359540.png,28.606,27.139,0.3188,0.0051
+28,262631,28,A large glass jar sitting on a table.,0028_262631.png,23.591,27.043,0.1184,0.0002
+29,468965,29,Some young people are flying a kite in the air.,0029_468965.png,22.721,23.466,0.3586,0.0019
+30,35326,30,A spice rack next to an oven that is next to oven mittens hanging.,0030_35326.png,26.86,19.108,0.2072,0.0028
+31,193181,31,A baseball batter and a catcher and some fans.,0031_193181.png,27.296,18.499,0.0329,0.0005
+32,331604,32,Kite surfer in the air on top of a red board.,0032_331604.png,22.258,24.323,0.368,0.0531
+33,311950,33,A hot dog sitting on a table covered in confetti.,0033_311950.png,30.904,32.73,0.4802,0.0135
+34,551804,34,A woman in a short skirt playing tennis.,0034_551804.png,29.443,25.764,0.0173,0.003
+35,42528,35,There is a person holding a cell phone in their hand.,0035_42528.png,19.891,19.126,0.0206,0.0
+36,345385,36,Young couple happily snuggling on their bed together.,0036_345385.png,24.996,22.528,0.1949,0.0001
+37,581357,37,Teenager doing stunts with a skateboard at a skateboard park.,0037_581357.png,27.075,28.443,0.3497,0.0115
+38,400922,38,A photograph of Key Bank with a clock under the sign.,0038_400922.png,31.892,40.397,0.1289,0.0428
+39,173004,39,Pizza with olives on black plate setting on table.,0039_173004.png,24.435,26.804,0.4147,0.0156
+40,481573,40,Boy standing on a skate board as seen from under the board.,0040_481573.png,28.679,30.868,0.2299,0.0028
+41,382111,41,A man riding on the back of a brown horse.,0041_382111.png,23.746,23.588,0.4371,0.0035
+42,509260,42,Some books shelves a television and a table.,0042_509260.png,26.937,26.094,0.2318,0.0043
+43,389316,43,Two elephants are standing inside of an enclosure.,0043_389316.png,26.727,26.824,0.3588,0.0031
+44,328683,44,A parking meter sitting on the sidewalk in front of a building.,0044_328683.png,29.114,20.434,0.0448,0.0262
+45,344795,45,A casserole covered in foil is inside an oven.,0045_344795.png,31.635,32.328,0.1412,0.0044
+46,31735,46,A living room painted red with black couches and coffee tables.,0046_31735.png,32.288,23.191,0.2598,0.0236
+47,43435,47,Two people are riding on surfboards in the ocean.,0047_43435.png,24.805,25.287,0.3227,0.0002
+48,485802,48,An airplane leaving a trail in the sky.,0048_485802.png,18.703,23.792,0.3265,0.0017
+49,554328,49,A man talking to two people in baseball uniforms.,0049_554328.png,26.421,28.059,0.3646,0.0107
+50,370270,50,A woman with a stick hitting something red and blurry in the air indoors.,0050_370270.png,28.636,28.831,0.207,0.0001
+51,497867,51,A bus full of people drives down a city street.,0051_497867.png,26.254,19.534,0.2226,0.0133
+52,327592,52,A woman with glasses eating a piece of cake.,0052_327592.png,31.677,26.421,0.0125,0.0
+53,241297,53,Train drives down the tracks along the treeline.,0053_241297.png,25.5,17.544,0.1793,0.0
+54,128372,54,A transit bus with its doors opened as passengers board.,0054_128372.png,25.102,23.257,0.2302,0.0102
+55,170191,55,A nerdy young man in a baseball cap and leopard print bathrobe stands next to a bed.,0055_170191.png,32.011,37.252,0.3253,0.0042
+56,313588,56,The woman holding an umbrella smiles on the narrow street beside the sidewalk.,0056_313588.png,27.21,24.537,0.0399,0.001
+57,571893,57,It is all kinds of books on the book selves.,0057_571893.png,22.87,21.17,0.4765,0.0127
+58,7888,58,We are looking up at a large square clock on a pole.,0058_7888.png,24.841,22.562,0.2485,0.0012
+59,400367,59,A picture taken at slow shutter speed on a city street at night.,0059_400367.png,26.341,24.149,0.0722,0.002
+60,102356,60,A woman riding a green motorcycle with a side car.,0060_102356.png,28.813,29.406,0.3244,0.0013
+61,482436,61,The woman in the diner and the man looking into the window are making eye contact.,0061_482436.png,26.333,22.498,0.3639,0.013
+62,562818,62,A group of people riding down a snow covered slope.,0062_562818.png,25.619,26.637,0.1907,0.0018
+63,168883,63,Two people and a child are dressed up in costumes.,0063_168883.png,28.521,22.144,0.3999,0.014
+64,471756,64,A boy smiles as he rides his boogie board to shore.,0064_471756.png,27.689,27.702,0.5295,0.0445
+65,528862,65,In a large area many giraffes stand behind a fenced area.,0065_528862.png,25.582,30.39,0.2634,0.0006
+66,186980,66,A wooden table with two chairs next to a sink.,0066_186980.png,25.552,28.173,0.5299,0.0092
+67,421060,67,Competitive spirit during a competition in mid air.,0067_421060.png,26.629,20.007,0.2602,0.0026
+68,424545,68,A green-eyed tabby cat lies on a sunny window ledge.,0068_424545.png,28.105,27.141,0.1996,0.0099
+69,165831,69,Here is a large tray of vegetables sitting on a counter top.,0069_165831.png,23.28,24.795,0.4508,0.0344
+70,27982,70,A toilet with the toilet seat left up and the sink next to it.,0070_27982.png,22.339,22.345,0.1193,0.0
+71,66817,71,"A meal of fried food, beans, rice, cream and fruit.",0071_66817.png,23.782,26.2,0.4087,0.0069
+72,476787,72,There is a pizza on the cutting board.,0072_476787.png,24.788,26.028,0.5757,0.0058
+73,499031,73,The three women are posing for pictures.,0073_499031.png,23.447,22.143,0.4052,0.0028
+74,368294,74,A man sitting at a desk cutting up a cigar.,0074_368294.png,31.843,28.635,0.2466,0.0007
+75,288584,75,A person with a giraffe costume greets people coming through the gate.,0075_288584.png,31.346,31.363,0.2312,0.0043
+76,253452,76,A white plate topped with food next to a plate of onion rings.,0076_253452.png,28.088,24.609,0.418,0.0053
+77,136466,77,An oven with a pot and kettle on top.,0077_136466.png,19.693,20.395,0.2868,0.0228
+78,369757,78,Multiple kinds of pizzas are on display in a case.,0078_369757.png,27.594,28.753,0.4787,0.0138
+79,145020,79,Donald Duck talking to Minney Mouse at Disney World at Christmas.,0079_145020.png,25.859,28.67,0.6064,0.0935
+80,552612,80,An image of a herd of sheep grazing in the pasture.,0080_552612.png,29.64,27.685,0.487,0.0002
+81,196141,81,A baseball player swinging a baseball bat at a ball.,0081_196141.png,25.455,26.926,0.0669,0.0273
+82,442661,82,A plush giraffe is posed to look out a window.,0082_442661.png,30.473,33.235,0.4664,0.068
+83,463199,83,Men are standing around on a city bus.,0083_463199.png,31.671,21.544,0.0729,0.0244
+84,454798,84,A young boy rides a horse up a small ramp.,0084_454798.png,29.38,30.452,0.4112,0.0028
+85,294350,85,A group of people in a large kitchen.,0085_294350.png,27.077,20.421,0.1306,0.0001
+86,351609,86,A bowl full of oranges that have been peeled.,0086_351609.png,25.783,26.495,0.5748,0.0439
+87,292236,87,Two men wait for a train at dusk.,0087_292236.png,27.709,25.484,0.0337,0.0
+88,129113,88,A close up of a spoon on a wooden surface.,0088_129113.png,28.27,29.05,0.4256,0.0057
+89,186345,89,Four seahorses in the sky next to four birds.,0089_186345.png,28.42,29.763,0.4118,0.0023
+90,527750,90,A person that is standing in a kitchen next to a icebox.,0090_527750.png,24.929,25.018,0.1958,0.0064
+91,523807,91,There is a hotdog sitting among many condiments.,0091_523807.png,31.52,26.221,0.5273,0.0057
+92,210789,92,An adult standing behind a little girl while holding an umbrella.,0092_210789.png,27.054,27.264,0.4096,0.0039
+93,25386,93,A man and woman are sitting together while the man eats with chopsticks.,0093_25386.png,28.49,28.253,0.3474,0.0299
+94,259854,94,A couple of very large signs by a buliding.,0094_259854.png,23.786,21.374,0.4532,0.0016
+95,133819,95,A blue bus driving down a city street.,0095_133819.png,27.518,23.98,0.3725,0.0557
+96,505573,96,A dog sits on a step perking its ears up.,0096_505573.png,21.421,20.953,0.3062,0.0
+97,211120,97,Three stuffed animals are dressed and sitting on a blanket in front of empty plates.,0097_211120.png,33.855,28.898,0.3818,0.0053
+98,212573,98,Two men standing at a street in the rain.,0098_212573.png,30.737,24.201,0.096,0.0006
+99,356261,99,There is a beige horse with blonde and brown hair on a hill.,0099_356261.png,27.824,24.506,0.2021,0.0
+100,240049,100,A woman holds a baby on her arm and both are looking forward at an enclosed area with two giraffes in it.,0100_240049.png,29.976,28.912,0.42,0.0108
+101,51610,101,A young girl watches a laptop on a bed.,0101_51610.png,26.378,28.213,0.3541,0.0019
+102,357941,102,A cat is relaxing on top of an old television.,0102_357941.png,31.978,30.119,0.3257,0.0348
+103,393838,103,A pot full of vegetables and ready to be cooked.,0103_393838.png,25.959,23.894,0.5677,0.0193
+104,494188,104,A black bird sitting next to a couple of people in chairs.,0104_494188.png,32.793,24.403,0.0335,0.0001
+105,144300,105,A motorcycle parked behind two vans in a parking lot.,0105_144300.png,30.271,18.08,0.223,0.0011
+106,90891,106,A group of men surrounded by clusters of bananas.,0106_90891.png,30.853,30.987,0.5958,0.0091
+107,347693,107,The older hospital room looks like it could be remodeled.,0107_347693.png,24.733,20.166,0.2285,0.0047
+108,319935,108,A bedroom suite with balcony and lovely view.,0108_319935.png,23.622,26.182,0.315,0.0013
+109,490171,109,A man in a wet suit riding on a surfboard with a dog.,0109_490171.png,25.705,29.552,0.3113,0.0037
+110,9590,110,A group of people sitting around a wooden table.,0110_9590.png,27.278,24.787,0.2968,0.0021
+111,520707,111,People are walking around with their luggage at an airport.,0111_520707.png,21.925,22.608,0.2311,0.0263
+112,476704,112,A bike on lamppost next to a red and white bus.,0112_476704.png,24.889,18.204,0.3547,0.0127
+113,402774,113,A woman is walking down the street with an umbrella in tow.,0113_402774.png,27.896,27.578,0.1815,0.0055
+114,60507,114,Player hits ball during major league game at stadium.,0114_60507.png,26.693,26.394,0.2211,0.0001
+115,514508,115,There are many people sitting inside a screen for love tv.,0115_514508.png,27.988,29.646,0.5098,0.0076
+116,363188,116,Five young people are seen wearing zombie costumes.,0116_363188.png,27.611,28.662,0.2458,0.0019
+117,227985,117,Two sandwiches on a plate with a slice of tomato on the side.,0117_227985.png,25.376,27.332,0.4325,0.0146
+118,76547,118,The man is working on his laptop while he waits for the train.,0118_76547.png,26.785,23.934,0.1488,0.0086
+119,563349,119,A snowboarder is flying in the air over snow.,0119_563349.png,26.487,24.769,0.2248,0.0012
+120,447611,120,Two people are sticking knives into a laptop.,0120_447611.png,25.572,34.996,0.3614,0.012
+121,309964,121,A woman and man sit under what appears to be a large blue umbrella on a grassy lot.,0121_309964.png,31.802,25.922,0.5339,0.02
+122,478474,122,A truck that is sitting in the street.,0122_478474.png,20.327,21.298,0.2342,0.0266
+123,390826,123,The panda bear likes to walk in the grass.,0123_390826.png,29.657,26.251,0.4832,0.0055
+124,260266,124,A street that has traffic lights that are very high up.,0124_260266.png,20.312,25.668,0.1739,0.0109
+125,385719,125,Laptop with computer monitors displayed on wooden desk.,0125_385719.png,23.557,26.683,0.4766,0.0195
+126,286907,126,A bathroom scene with focus on the toilet.,0126_286907.png,23.062,24.353,0.1484,0.0028
+127,154004,127,Aer of people sitting down on a beach near water.,0127_154004.png,24.787,23.622,0.3137,0.0027
+128,333956,128,The ocean sits near a sidewalk and viewing contraption.,0128_333956.png,30.91,24.09,0.3192,0.0043
+129,526103,129,"An elephant looks very much like the elephant in the sign outside his enclosure, that is also directly in front of him, that tells visitors about him.",0129_526103.png,22.674,25.664,0.3388,0.0074
+130,184400,130,A subway train that is passing over a train bridge.,0130_184400.png,26.285,27.629,0.2728,0.0083
+131,229849,131,An image of a female tennis player that is returning a serve.,0131_229849.png,25.717,28.804,0.374,0.0009
+132,527784,132,Two plates that have food on a counter.,0132_527784.png,23.678,20.917,0.1539,0.0036
+133,83531,133,A number of hot dogs cooking on a grill.,0133_83531.png,29.443,29.364,0.2837,0.01
+134,187990,134,A young boy riding a skate board inside a building.,0134_187990.png,30.99,31.181,0.0515,0.0072
+135,516601,135,Many people skiing down a snow covered slope.,0135_516601.png,29.247,23.791,0.256,0.0121
+136,104803,136,A toilet with glitter paint on it.,0136_104803.png,19.409,33.749,0.4048,0.0026
+137,12667,137,A telephone has it receiver replaced with a banana.,0137_12667.png,23.384,31.645,0.37,0.0014
+138,104782,138,"A street sign reads ""Bacchanalia"" above a stop sign.",0138_104782.png,32.675,41.099,0.2094,0.0022
+139,67310,139,A man on a skateboard in the air coming on to a ramp.,0139_67310.png,24.956,24.627,0.0761,0.0136
+140,372718,140,A glass vase of many flowers with water inside.,0140_372718.png,29.95,23.458,0.2179,0.0031
+141,217957,141,An ornate clock on a building with tree branches.,0141_217957.png,23.589,24.643,0.2774,0.001
+142,554156,142,A man holding a tennis racket in the air.,0142_554156.png,26.164,24.348,0.328,0.0083
+143,366711,143,A man surrounded by lemons and oranges making fresh juice.,0143_366711.png,33.232,28.867,0.2825,0.0105
+144,331075,144,A dog that's been playing in the water.,0144_331075.png,25.936,22.508,0.2144,0.0006
+145,288685,145,A man standing next to a herd of white sheep.,0145_288685.png,26.923,20.484,0.364,0.001
+146,129135,146,Blue and yellow train at a train station in front of a bench.,0146_129135.png,24.551,26.811,0.4324,0.1126
+147,577862,147,Two giraffe standing next to each other in a field.,0147_577862.png,29.775,20.491,0.505,0.006
+148,521540,148,"A plate with a banana that is cut up, cookies and a spoon on it.",0148_521540.png,27.427,27.777,0.2879,0.0073
+149,13546,149,Young man on skate board balancing on concrete barrier near sidewalk with small park area near by.,0149_13546.png,25.545,20.948,0.2591,0.0025
+150,49269,150,A brown horse stands over a light colored dog.,0150_49269.png,31.808,30.378,0.4179,0.0111
+151,224675,151,A woman standing next to a man kneeling down on the ground.,0151_224675.png,29.948,22.143,0.3305,0.0021
+152,156924,152,A man in a black shirt and a woman in a white shirt playing a videogame.,0152_156924.png,26.263,27.993,0.2555,0.0062
+153,308476,153,A white bear is standing out on the rocks.,0153_308476.png,26.058,26.452,0.1641,0.0006
+154,529762,154,Man taking a picture of food on a table.,0154_529762.png,21.122,23.711,0.3757,0.0034
+155,410487,155,A view of a oven with the food flipped over in it.,0155_410487.png,24.865,26.103,0.4113,0.0192
+156,113235,156,A person feeding a animal a whole carrot.,0156_113235.png,28.424,25.527,0.5196,0.0084
+157,465718,157,"A desk with a laptop, two monitors, two speakers, a keyboard, a mouse and a cell phone on it.",0157_465718.png,29.037,27.781,0.4011,0.027
+158,226984,158,A kitchen with an oven with a green rag and an orange rag.,0158_226984.png,24.943,24.174,0.4753,0.0035
+159,464251,159,A bird is sitting on a railing next to a potted plant.,0159_464251.png,28.736,26.351,0.3254,0.0007
+160,261888,160,A couple of people that are biking down a road.,0160_261888.png,25.873,22.31,0.304,0.0013
+161,430973,161,Large whole pizza pie with cheese and olive toppings.,0161_430973.png,22.009,28.981,0.5239,0.0033
+162,885,162,A male tennis player in white shorts is playing tennis.,0162_885.png,28.768,24.866,0.3917,0.0067
+163,459467,163,"A small, single person aircraft sits on the runway.",0163_459467.png,25.994,26.484,0.0417,0.0009
+164,379842,164,A remote and some booklets on a table.,0164_379842.png,21.601,22.211,0.3508,0.0221
+165,133343,165,A man in large sunglasses and a lose tie.,0165_133343.png,26.31,22.792,0.2264,0.0014
+166,442746,166,A girl is playing in a grassy area.,0166_442746.png,27.44,26.319,0.4796,0.0002
+167,579970,167,Dimly lit part of a house with light entering window.,0167_579970.png,25.012,24.452,0.4231,0.0084
+168,356612,168,A group of cows walking in front of several cars.,0168_356612.png,26.195,28.887,0.2672,0.0074
+169,530099,169,A orange calico cat on top of a vehicle.,0169_530099.png,34.129,34.262,0.3274,0.0059
+170,543581,170,A dog is sitting on the couch in a living room.,0170_543581.png,23.392,23.888,0.2948,0.0
+171,155291,171,The orange cat is sleepy on the window sill.,0171_155291.png,28.611,26.391,0.6017,0.0015
+172,281759,172,Five ladies standing in the street with umbrellas.,0172_281759.png,29.057,27.094,0.1184,0.0071
+173,460160,173,A white bird sitting on top of a lake.,0173_460160.png,28.006,23.544,0.2616,0.0084
+174,329447,174,Cows in a field being rounded up by a herding dog.,0174_329447.png,22.942,26.935,0.5307,0.0011
+175,397354,175,A family of all ages gather together in a kitchen.,0175_397354.png,26.95,29.341,0.2501,0.0008
+176,281929,176,A formally dressed man holding his bike.,0176_281929.png,29.84,31.66,0.2434,0.0009
+177,504415,177,A big man running to hit a tennis ball.,0177_504415.png,30.804,28.949,0.2225,0.0022
+178,417285,178,A series of photos of two plates with different desserts and another plate with a cup of coffee.,0178_417285.png,30.999,25.33,0.4107,0.0241
+179,481159,179,A horse looking over a fence on a snowy day.,0179_481159.png,30.997,29.247,0.1684,0.0006
+180,335954,180,Two cups of fruits placed next to each other.,0180_335954.png,24.634,23.782,0.453,0.0254
+181,44877,181,A person in a wheel chair swinging a tennis racket.,0181_44877.png,25.993,26.825,0.2299,0.0149
+182,213033,182,An old man standing on the waters edge with an umbrella.,0182_213033.png,26.299,24.042,0.345,0.0015
+183,436617,183,THERE IS A GROUP OF PEOPLE SITTING AT A TABLE.,0183_436617.png,23.773,24.721,0.0317,0.0
+184,133244,184,A man standing in the middle of a tennis court with a large crowd watching.,0184_133244.png,28.414,25.648,0.2484,0.0026
+185,559547,185,A group of vintage men with baseball attire on them.,0185_559547.png,31.129,29.337,0.0473,0.0041
+186,292330,186,A dog on a baseball field playing with a baseball bat.,0186_292330.png,29.403,29.866,0.3223,0.0183
+187,272049,187,A yellow truck is parked on grass near a jumbo jet on display.,0187_272049.png,29.949,23.644,0.5087,0.0446
+188,5001,188,A man cutting a ribbon at a ceremony.,0188_5001.png,31.389,24.649,0.2779,0.007
+189,519338,189,An old rusted train sitting on abandoned train tracks.,0189_519338.png,28.008,26.265,0.4316,0.0301
+190,246522,190,A building that has a large clock on it.,0190_246522.png,25.445,22.993,0.0685,0.0008
+191,193162,191,A man is right behind a cow on green grass.,0191_193162.png,25.305,22.298,0.2715,0.0001
+192,471991,192,A church with pews running along the sides with a clear center isle.,0192_471991.png,23.698,23.699,0.4896,0.0104
+193,577182,193,The wooden park benches are painted dark purple.,0193_577182.png,31.635,25.414,0.3621,0.0026
+194,449432,194,Young servicemen and servicewomen stand next to a blue bus with luggage.,0194_449432.png,34.507,30.781,0.2892,0.0396
+195,13348,195,A JAL jetliner on the tarmac at an airport.,0195_13348.png,25.28,28.942,0.1204,0.0146
+196,293324,196,Several commercial planes sit on a runway next to an airport.,0196_293324.png,28.131,22.218,0.1575,0.0018
+197,342006,197,Water traffic along the Thames by Big Ben.,0197_342006.png,27.226,20.748,0.1776,0.0029
+198,300276,198,People are at an outdoor lunch table in a park.,0198_300276.png,25.2,12.78,0.3475,0.0116
+199,38210,199,A man on skis riding through a snowy trail.,0199_38210.png,26.936,23.449,0.2775,0.0075

@@ -1,0 +1,73 @@
+code version: e62be8d Milestone 2: noise-schedule experiment (Euler: leading, linspace, trailing, Karras) and an 8-image early-samples figure with prompts
+/usr/local/lib/python3.13/dist-packages/diffusers/utils/deprecation_utils.py:23: FutureWarning: `torch_dtype` is deprecated and will be removed in version 1.0.0. Please use `dtype` instead.
+  deprecate("torch_dtype", "1.0.0", _TORCH_DTYPE_DEPRECATION_MESSAGE)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files:  15%|█▌        | 2/13 [00:00<00:00, 16.69it/s]
+Fetching 13 files:  62%|██████▏   | 8/13 [00:00<00:00, 39.85it/s]
+Fetching 13 files:  85%|████████▍ | 11/13 [00:19<00:00, 39.85it/s]
+Fetching 13 files:  92%|█████████▏| 12/13 [00:25<00:02,  2.79s/it]
+Fetching 13 files: 100%|██████████| 13/13 [00:32<00:00,  3.39s/it]
+Fetching 13 files: 100%|██████████| 13/13 [00:32<00:00,  2.54s/it]
+
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]
+
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s][A
+
+Loading weights:   1%|          | 2/196 [00:00<00:44,  4.34it/s][A
+Loading weights: 100%|██████████| 196/196 [00:00<00:00, 417.70it/s]
+
+Loading pipeline components...:  50%|█████     | 3/6 [00:00<00:00,  3.59it/s]
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:06<00:03,  1.87s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:07<00:00,  1.33s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:07<00:00,  1.26s/it]
+generation: {'generated': 0, 'skipped': 200, 'seconds_per_image': None}
+
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]
+Loading weights:  27%|██▋       | 161/590 [00:00<00:00, 1602.13it/s]
+Loading weights:  55%|█████▍    | 322/590 [00:00<00:00, 693.31it/s] 
+Loading weights:  71%|███████   | 418/590 [00:00<00:00, 636.87it/s]
+Loading weights:  84%|████████▍ | 495/590 [00:00<00:00, 615.98it/s]
+Loading weights:  96%|█████████▌| 564/590 [00:00<00:00, 592.11it/s]
+Loading weights: 100%|██████████| 590/590 [00:00<00:00, 654.26it/s]
+
+clip images:   0%|          | 0/7 [00:00<?, ?it/s]
+clip images:  14%|█▍        | 1/7 [00:14<01:24, 14.05s/it]
+clip images:  29%|██▊       | 2/7 [00:26<01:04, 12.92s/it]
+clip images:  43%|████▎     | 3/7 [00:39<00:51, 12.93s/it]
+clip images:  57%|█████▋    | 4/7 [00:51<00:37, 12.54s/it]
+clip images:  71%|███████▏  | 5/7 [01:02<00:24, 12.15s/it]
+clip images:  86%|████████▌ | 6/7 [01:14<00:12, 12.09s/it]
+clip images: 100%|██████████| 7/7 [01:17<00:00,  9.13s/it]
+                                                          
+
+clip images:   0%|          | 0/7 [00:00<?, ?it/s]
+clip images:  14%|█▍        | 1/7 [00:12<01:16, 12.74s/it]
+clip images:  29%|██▊       | 2/7 [00:24<01:01, 12.23s/it]
+clip images:  43%|████▎     | 3/7 [00:35<00:46, 11.70s/it]
+clip images:  57%|█████▋    | 4/7 [00:47<00:35, 11.72s/it]
+clip images:  71%|███████▏  | 5/7 [00:59<00:23, 11.99s/it]
+clip images:  86%|████████▌ | 6/7 [01:12<00:12, 12.03s/it]
+clip images: 100%|██████████| 7/7 [01:15<00:00,  9.25s/it]
+                                                          
+{
+  "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "scheduler": "ddim",
+  "steps": 30,
+  "guidance": 7.5,
+  "images": 200,
+  "gpu": "Tesla T4",
+  "seconds_per_image": 4.548,
+  "batch_size": 4,
+  "clip_score": 26.96,
+  "clip_score_ci95": 0.45,
+  "clip_score_min_max": [
+    18.7,
+    34.51
+  ],
+  "saturation": 0.3073,
+  "clip_score_real": 25.87,
+  "clip_score_real_ci95": 0.55,
+  "generated_beats_real": 0.55
+}

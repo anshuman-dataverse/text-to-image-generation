@@ -1,0 +1,20 @@
+{
+  "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "scheduler": "ddim",
+  "steps": 30,
+  "guidance": 7.5,
+  "images": 200,
+  "gpu": "Tesla T4",
+  "seconds_per_image": 4.548,
+  "batch_size": 4,
+  "clip_score": 26.96,
+  "clip_score_ci95": 0.45,
+  "clip_score_min_max": [
+    18.7,
+    34.51
+  ],
+  "saturation": 0.3073,
+  "clip_score_real": 25.87,
+  "clip_score_real_ci95": 0.55,
+  "generated_beats_real": 0.55
+}

@@ -1,0 +1,199 @@
+code version: e62be8d Milestone 2: noise-schedule experiment (Euler: leading, linspace, trailing, Karras) and an 8-image early-samples figure with prompts
+/usr/local/lib/python3.13/dist-packages/diffusers/utils/deprecation_utils.py:23: FutureWarning: `torch_dtype` is deprecated and will be removed in version 1.0.0. Please use `dtype` instead.
+  deprecate("torch_dtype", "1.0.0", _TORCH_DTYPE_DEPRECATION_MESSAGE)
+
+Loading pipeline components...:   0%|          | 0/6 [00:00<?, ?it/s]
+Loading pipeline components...:  33%|███▎      | 2/6 [00:10<00:20,  5.17s/it]
+
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s][A
+
+Loading weights:   1%|          | 2/196 [00:00<01:02,  3.12it/s][A
+
+Loading weights:  37%|███▋      | 72/196 [00:00<00:00, 126.24it/s][A
+
+Loading weights:  55%|█████▌    | 108/196 [00:00<00:00, 136.44it/s][A
+
+Loading weights:  69%|██████▉   | 135/196 [00:01<00:00, 150.29it/s][A
+
+Loading weights:  81%|████████  | 159/196 [00:01<00:00, 145.67it/s][A
+
+Loading weights:  91%|█████████▏| 179/196 [00:01<00:00, 150.07it/s][A
+Loading weights: 100%|██████████| 196/196 [00:01<00:00, 127.76it/s]
+
+Loading pipeline components...:  67%|██████▋   | 4/6 [00:12<00:05,  2.68s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:13<00:00,  1.74s/it]
+Loading pipeline components...: 100%|██████████| 6/6 [00:13<00:00,  2.24s/it]
+w=1: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+w=3: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+w=5: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+w=7.5: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+w=10: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+w=15: {'generated': 0, 'skipped': 64, 'seconds_per_image': None}
+
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]
+Loading weights:   1%|          | 3/590 [00:01<03:17,  2.97it/s]
+Loading weights:  16%|█▌        | 93/590 [00:01<00:04, 112.09it/s]
+Loading weights:  24%|██▎       | 140/590 [00:01<00:03, 123.92it/s]
+Loading weights:  29%|██▉       | 172/590 [00:01<00:03, 128.53it/s]
+Loading weights:  33%|███▎      | 197/590 [00:01<00:03, 130.98it/s]
+Loading weights:  37%|███▋      | 218/590 [00:02<00:02, 125.11it/s]
+Loading weights:  40%|████      | 236/590 [00:02<00:03, 114.78it/s]
+Loading weights:  43%|████▎     | 251/590 [00:02<00:03, 103.10it/s]
+Loading weights:  45%|████▍     | 264/590 [00:02<00:03, 91.15it/s] 
+Loading weights:  47%|████▋     | 275/590 [00:02<00:03, 86.66it/s]
+Loading weights:  49%|████▊     | 287/590 [00:02<00:03, 82.90it/s]
+Loading weights:  51%|█████▏    | 303/590 [00:03<00:03, 80.79it/s]
+Loading weights:  54%|█████▍    | 319/590 [00:03<00:03, 81.53it/s]
+Loading weights:  57%|█████▋    | 335/590 [00:03<00:03, 80.82it/s]
+Loading weights:  59%|█████▉    | 351/590 [00:03<00:03, 79.36it/s]
+Loading weights:  62%|██████▏   | 367/590 [00:03<00:02, 79.53it/s]
+Loading weights:  65%|██████▍   | 383/590 [00:04<00:02, 79.65it/s]
+Loading weights:  68%|██████▊   | 399/590 [00:04<00:02, 79.59it/s]
+Loading weights:  70%|███████   | 415/590 [00:04<00:02, 79.56it/s]
+Loading weights:  73%|███████▎  | 431/590 [00:04<00:01, 79.65it/s]
+Loading weights:  76%|███████▌  | 447/590 [00:05<00:01, 78.95it/s]
+Loading weights:  78%|███████▊  | 463/590 [00:05<00:01, 78.47it/s]
+Loading weights:  81%|████████  | 479/590 [00:05<00:01, 76.54it/s]
+Loading weights:  84%|████████▍ | 495/590 [00:05<00:01, 75.60it/s]
+Loading weights:  87%|████████▋ | 511/590 [00:05<00:01, 74.87it/s]
+Loading weights:  89%|████████▉ | 527/590 [00:06<00:00, 75.47it/s]
+Loading weights:  91%|█████████ | 537/590 [00:06<00:00, 78.73it/s]
+Loading weights:  93%|█████████▎| 546/590 [00:06<00:00, 76.13it/s]
+Loading weights:  95%|█████████▍| 559/590 [00:06<00:00, 76.07it/s]
+Loading weights:  96%|█████████▋| 569/590 [00:06<00:00, 79.93it/s]
+Loading weights:  98%|█████████▊| 578/590 [00:06<00:00, 72.74it/s]
+Loading weights: 100%|██████████| 590/590 [00:06<00:00, 86.39it/s]
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:13<00:13, 13.07s/it]
+clip images: 100%|██████████| 2/2 [00:25<00:00, 12.64s/it]
+                                                          
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:12<00:12, 12.67s/it]
+clip images: 100%|██████████| 2/2 [00:24<00:00, 12.31s/it]
+                                                          
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:12<00:12, 12.02s/it]
+clip images: 100%|██████████| 2/2 [00:23<00:00, 11.88s/it]
+                                                          
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:11<00:11, 11.77s/it]
+clip images: 100%|██████████| 2/2 [00:23<00:00, 11.66s/it]
+                                                          
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:11<00:11, 11.57s/it]
+clip images: 100%|██████████| 2/2 [00:23<00:00, 11.71s/it]
+                                                          
+
+clip images:   0%|          | 0/2 [00:00<?, ?it/s]
+clip images:  50%|█████     | 1/2 [00:11<00:11, 11.10s/it]
+clip images: 100%|██████████| 2/2 [00:22<00:00, 11.29s/it]
+                                                          
+{
+  "model_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "scheduler": "ddim",
+  "steps": 30,
+  "seeds_per_prompt": 2,
+  "gpu": "Tesla T4",
+  "batch_size": 4,
+  "per_scale": [
+    {
+      "guidance": 1,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 2.546,
+      "clip_score": 21.9289,
+      "clip_score_ci95": 0.9858,
+      "diversity": 0.2795,
+      "diversity_ci95": 0.027,
+      "saturation": 0.2123,
+      "saturation_ci95": 0.0286,
+      "clipped": 0.0005,
+      "clipped_ci95": 0.0002,
+      "clip_vs_w7.5": -4.535,
+      "clip_vs_w7.5_ci95": 1.161
+    },
+    {
+      "guidance": 3,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 4.6,
+      "clip_score": 25.3093,
+      "clip_score_ci95": 0.9517,
+      "diversity": 0.1991,
+      "diversity_ci95": 0.0262,
+      "saturation": 0.2489,
+      "saturation_ci95": 0.0366,
+      "clipped": 0.0021,
+      "clipped_ci95": 0.0011,
+      "clip_vs_w7.5": -1.155,
+      "clip_vs_w7.5_ci95": 0.681
+    },
+    {
+      "guidance": 5,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 4.595,
+      "clip_score": 25.8289,
+      "clip_score_ci95": 1.1121,
+      "diversity": 0.1676,
+      "diversity_ci95": 0.0277,
+      "saturation": 0.2879,
+      "saturation_ci95": 0.0455,
+      "clipped": 0.0068,
+      "clipped_ci95": 0.0032,
+      "clip_vs_w7.5": -0.635,
+      "clip_vs_w7.5_ci95": 0.526
+    },
+    {
+      "guidance": 7.5,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 4.436,
+      "clip_score": 26.4639,
+      "clip_score_ci95": 1.1507,
+      "diversity": 0.154,
+      "diversity_ci95": 0.0272,
+      "saturation": 0.3223,
+      "saturation_ci95": 0.0515,
+      "clipped": 0.0141,
+      "clipped_ci95": 0.0065
+    },
+    {
+      "guidance": 10,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 4.526,
+      "clip_score": 26.5154,
+      "clip_score_ci95": 1.0485,
+      "diversity": 0.1288,
+      "diversity_ci95": 0.0203,
+      "saturation": 0.35,
+      "saturation_ci95": 0.0557,
+      "clipped": 0.0222,
+      "clipped_ci95": 0.0087,
+      "clip_vs_w7.5": 0.051,
+      "clip_vs_w7.5_ci95": 0.409
+    },
+    {
+      "guidance": 15,
+      "images": 64,
+      "prompts": 32,
+      "seconds_per_image": 4.524,
+      "clip_score": 26.8774,
+      "clip_score_ci95": 1.0359,
+      "diversity": 0.1253,
+      "diversity_ci95": 0.0186,
+      "saturation": 0.3895,
+      "saturation_ci95": 0.0593,
+      "clipped": 0.0392,
+      "clipped_ci95": 0.0107,
+      "clip_vs_w7.5": 0.414,
+      "clip_vs_w7.5_ci95": 0.457
+    }
+  ]
+}

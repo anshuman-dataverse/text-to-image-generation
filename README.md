@@ -149,4 +149,6 @@ Four experiments on COCO captions from the Milestone 1 pair manifest. Prompt *i*
 
 **Run:** open [`notebooks/milestone2_colab.ipynb`](notebooks/milestone2_colab.ipynb) in Colab with a T4 GPU and *Run all* (about 2 hours). Generated images go to `MyDrive/IE7615_Project2/milestone2_outputs` and are skipped if already there, so a disconnected session resumes. Results, figures and logs are zipped to `MyDrive/IE7615_Project2/milestone2_outputs.zip`; unzip it at the repository root and commit.
 
+**Report:** [`docs/milestone2/Milestone2_Report.pdf`](docs/milestone2/Milestone2_Report.pdf). The executed run with all outputs is [`notebooks/milestone2_colab_executed.ipynb`](notebooks/milestone2_colab_executed.ipynb).
+
 Locally: `python scripts/milestone2/01_baseline.py` (and 02, 03, 04). `--n` sets the number of prompts and `--score-only` re-scores existing images without a GPU run. Settings are in `configs/milestone2.yaml`.
